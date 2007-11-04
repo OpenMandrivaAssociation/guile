@@ -1,15 +1,16 @@
 %define major_version   1.8
 %define libname         %mklibname %{name} 17
-%define rel 7
+%define develname	%mklibname %{name} -d
+%define rel 1
 # (Abel) making guile require guile-devel means user need to download
 # more stuff, which is worse
 %define _requires_exceptions devel(.*)
 
 Name:           guile
-Version:        1.8.1
+Version:        1.8.3
 Release:        %mkrel %rel 
 Summary:        GNU implementation of Scheme for application extensibility
-License:        GPL
+License:        LGPLv2+
 Group:          Development/Other
 URL:            http://www.gnu.org/software/guile/guile.html
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root
@@ -37,14 +38,14 @@ Summary:        Libraries for Guile %{version}
 Group:          System/Libraries
 Requires:       %{name} = %{version}
 
-%package -n %{libname}-devel
+%package -n %{develname}
 Summary:        Development headers and static library for libguile
 Group:          Development/C
 Requires:       %{libname} = %{version}
 Provides:       libguile-devel = %{version}-%{release}
-Provides:       %{_lib}guile-devel = %{version}-%{release}
 Provides:       guile-devel = %{version}-%{release}
 Obsoletes:      guile-devel
+Obsoletes:	%{mklibname guile 17 -d}
 Requires:       libgmp-devel
 Requires:       libtool-devel
 # (Abel) here comes the definition of "ugliness"
@@ -74,7 +75,7 @@ This package contains Guile shared object libraries and the ice-9
 scheme module. Guile is the GNU Ubiquitous Intelligent Language for
 Extension.
 
-%description -n %{libname}-devel
+%description -n %{develname}
 This package contains the development headers and the static library
 for libguile. C headers, aclocal macros, the `guile1.4-snarf' and
 `guile-config' utilities, and static `libguile' library for Guile, the
@@ -138,7 +139,7 @@ GNU Ubiquitous Intelligent Language for Extension
 
 %files
 %defattr(-,root,root)
-%doc AUTHORS BUGS COPYING COPYING.LIB GUILE-VERSION LICENSE NEWS README THANKS
+%doc AUTHORS BUGS ChangeLog GUILE-VERSION LICENSE NEWS README THANKS
 %{_bindir}/guile
 %{_bindir}/guile-tools
 %{_datadir}/guile
@@ -151,12 +152,11 @@ GNU Ubiquitous Intelligent Language for Extension
 
 %files -n %{libname}
 %defattr(-,root,root)
-%doc libguile/ChangeLog*
 %{_libdir}/lib*.so.*
 
-%files -n %{libname}-devel
+%files -n %{develname}
 %defattr(-,root,root)
-%doc ABOUT-NLS ANON-CVS ChangeLog HACKING INSTALL SNAPSHOTS
+%doc ABOUT-NLS ANON-CVS HACKING INSTALL SNAPSHOTS libguile/ChangeLog*
 %multiarch %{multiarch_includedir}/libguile/scmconfig.h
 %{_bindir}/guile-config
 %{_bindir}/guile-snarf
@@ -165,5 +165,4 @@ GNU Ubiquitous Intelligent Language for Extension
 %{_includedir}/guile*
 %{_libdir}/lib*.*a
 %{_libdir}/libguile.so
-
 
