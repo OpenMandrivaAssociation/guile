@@ -16,11 +16,9 @@ URL:            http://www.gnu.org/software/guile/guile.html
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root
 Source0:        ftp://ftp.gnu.org/pub/gnu/guile/guile-%{version}.tar.gz
 Source1:        ftp://ftp.gnu.org/pub/gnu/guile/guile-%{version}.tar.gz.sig
-Patch0:         guile-1.8.1-64bit-fixes.patch
-Patch1:         guile-1.8.1-srfi-14-test.patch
-Patch2:         guile-1.6.4-amd64.patch
-Patch3:         guile-1.8.1-slib.patch
-Patch4:         guile-1.8-rational.patch
+Patch0:         guile-1.8.3-64bit-fixes.patch
+Patch1:         guile-1.6.4-amd64.patch
+Patch2:         guile-1.8.3-slib.patch
 Requires(post): umb-scheme
 Requires(post): %{libname} = %{version}-%{release}
 Requires(post): rpm-helper
@@ -84,10 +82,8 @@ GNU Ubiquitous Intelligent Language for Extension
 %prep
 %setup -q
 %patch0 -p1 -b .64bit-fixes
-%patch1 -p1 -b .srfi-14-test
-%patch2 -p1 -b .amd64
-%patch3 -p1 -b .slib
-%patch4 -p0 -b .rational
+%patch1 -p1 -b .amd64
+%patch2 -p1 -b .slib
 
 %build
 %{configure2_5x} \
