@@ -135,7 +135,7 @@ GNU Ubiquitous Intelligent Language for Extension
 
 %files
 %defattr(-,root,root)
-%doc AUTHORS BUGS ChangeLog GUILE-VERSION LICENSE NEWS README THANKS
+%doc AUTHORS ChangeLog GUILE-VERSION LICENSE NEWS README THANKS
 %{_bindir}/guile
 %{_bindir}/guile-tools
 %{_datadir}/guile
