@@ -1,7 +1,7 @@
 %define major_version   1.8
 %define libname         %mklibname %{name} 17
 %define develname	%mklibname %{name} -d
-%define rel 1
+%define rel 2
 # (Abel) making guile require guile-devel means user need to download
 # more stuff, which is worse
 %define _requires_exceptions devel(.*)
@@ -18,8 +18,6 @@ Source0:        ftp://ftp.gnu.org/pub/gnu/guile/guile-%{version}.tar.gz
 Source1:        ftp://ftp.gnu.org/pub/gnu/guile/guile-%{version}.tar.gz.sig
 Patch0:         guile-1.8.3-64bit-fixes.patch
 Patch1:         guile-1.6.4-amd64.patch
-Patch2:         guile-1.8.3-slib.patch
-Requires(post): umb-scheme
 Requires(post): %{libname} = %{version}-%{release}
 Requires(post): rpm-helper
 Requires(preun): rpm-helper
@@ -83,7 +81,6 @@ GNU Ubiquitous Intelligent Language for Extension
 %setup -q
 %patch0 -p1 -b .64bit-fixes
 %patch1 -p1 -b .amd64
-%patch2 -p1 -b .slib
 
 %build
 %{configure2_5x} \
@@ -106,19 +103,18 @@ GNU Ubiquitous Intelligent Language for Extension
 %{makeinstall_std}
 
 %{__mkdir_p} %{buildroot}%{_datadir}/guile/site
-%{__ln_s} ../../share/umb-scheme/slib %{buildroot}%{_datadir}/guile/slib
-#gw needed with guile 1.6.8 and new slib
-%{__ln_s} %{_datadir}/umb-scheme/slib %{buildroot}%{_datadir}/guile/%{major_version}/slib
 
 %multiarch_includes %{buildroot}%{_includedir}/libguile/scmconfig.h
 
 %{_bindir}/chrpath -d %{buildroot}{%{_bindir}/guile,%{_libdir}/*.so.*.*.*}
 
+# create ghost file for packaging
+touch %{buildroot}%{_datadir}/guile/site/slib %{buildroot}%{_datadir}/guile/site/slibcat
+
 %clean
 %{__rm} -rf %{buildroot}
 
 %post
-%{_bindir}/guile -c "(use-modules (ice-9 slib)) (require 'new-catalog)"
 %_install_info guile-tut.info
 %_install_info guile.info
 %_install_info r5rs.info
@@ -133,6 +129,21 @@ GNU Ubiquitous Intelligent Language for Extension
 %post -n %{libname} -p /sbin/ldconfig
 %postun -n %{libname} -p /sbin/ldconfig
 
+%triggerin -- slib
+ln -sfT ../../slib %{_datadir}/guile/site/slib
+rm -f %{_datadir}/guile/site/slibcat
+SCHEME_LIBRARY_PATH=%{_datadir}/slib/ \
+    %{_bindir}/guile -l %{_datadir}/slib/guile.init -c "\
+    (define (implementation-vicinity) \"%{_datadir}/guile/site/\")
+    (require 'new-catalog)" &> /dev/null
+:
+
+%triggerun -- slib
+if [ "$1" = 0 -o "$2" = 0 ]; then
+    rm -f %{_datadir}/guile/site/slib{,cat}
+fi
+
+
 %files
 %defattr(-,root,root)
 %doc AUTHORS ChangeLog GUILE-VERSION LICENSE NEWS README THANKS
@@ -145,6 +156,8 @@ GNU Ubiquitous Intelligent Language for Extension
 %{_libdir}/libguile-srfi-srfi-1-v-3.so
 %{_libdir}/libguile-srfi-srfi-60-v-2.so
 %{_libdir}/libguilereadline-v-17.so
+%ghost %{_datadir}/guile/site/slib
+%ghost %{_datadir}/guile/site/slibcat
 
 %files -n %{libname}
 %defattr(-,root,root)
