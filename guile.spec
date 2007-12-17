@@ -13,7 +13,6 @@ Summary:        GNU implementation of Scheme for application extensibility
 License:        LGPLv2+
 Group:          Development/Other
 URL:            http://www.gnu.org/software/guile/guile.html
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root
 Source0:        ftp://ftp.gnu.org/pub/gnu/guile/guile-%{version}.tar.gz
 Source1:        ftp://ftp.gnu.org/pub/gnu/guile/guile-%{version}.tar.gz.sig
 Patch0:         guile-1.8.3-64bit-fixes.patch
