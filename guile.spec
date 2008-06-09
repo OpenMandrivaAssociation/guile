@@ -126,8 +126,12 @@ touch %{buildroot}%{_datadir}/guile/site/slib %{buildroot}%{_datadir}/guile/site
 %_remove_install_info r5rs.info
 %_remove_install_info goops.info
 
+%if %mdkversion < 200900
 %post -n %{libname} -p /sbin/ldconfig
+%endif
+%if %mdkversion < 200900
 %postun -n %{libname} -p /sbin/ldconfig
+%endif
 
 %triggerin -- slib
 ln -sfT ../../slib %{_datadir}/guile/site/slib
