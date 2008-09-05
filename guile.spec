@@ -1,13 +1,13 @@
-%define major_version   1.8
-%define libname         %mklibname %{name} 17
+%define major		17
+%define libname         %mklibname %{name} %{major}
 %define develname	%mklibname %{name} -d
-%define rel 2
+%define rel 1
 # (Abel) making guile require guile-devel means user need to download
 # more stuff, which is worse
 %define _requires_exceptions devel(.*)
 
 Name:           guile
-Version:        1.8.3
+Version:        1.8.5
 Release:        %mkrel %rel 
 Summary:        GNU implementation of Scheme for application extensibility
 License:        LGPLv2+
@@ -102,27 +102,27 @@ GNU Ubiquitous Intelligent Language for Extension
 %{__rm} -rf %{buildroot}
 %{makeinstall_std}
 
-%{__mkdir_p} %{buildroot}%{_datadir}/guile/site
+%{__mkdir_p} %{buildroot}%{_datadir}/%{name}/site
 
-%multiarch_includes %{buildroot}%{_includedir}/libguile/scmconfig.h
+%multiarch_includes %{buildroot}%{_includedir}/lib%{name}/scmconfig.h
 
-%{_bindir}/chrpath -d %{buildroot}{%{_bindir}/guile,%{_libdir}/*.so.*.*.*}
+%{_bindir}/chrpath -d %{buildroot}{%{_bindir}/%{name},%{_libdir}/*.so.*.*.*}
 
 # create ghost file for packaging
-touch %{buildroot}%{_datadir}/guile/site/slib %{buildroot}%{_datadir}/guile/site/slibcat
+touch %{buildroot}%{_datadir}/%{name}/site/slib %{buildroot}%{_datadir}/%{name}/site/slibcat
 
 %clean
 %{__rm} -rf %{buildroot}
 
 %post
-%_install_info guile-tut.info
-%_install_info guile.info
+%_install_info %{name}-tut.info
+%_install_info %{name}.info
 %_install_info r5rs.info
 %_install_info goops.info
 
 %preun
-%_remove_install_info guile-tut.info
-%_remove_install_info guile.info
+%_remove_install_info %{name}-tut.info
+%_remove_install_info %{name}.info
 %_remove_install_info r5rs.info
 %_remove_install_info goops.info
 
@@ -134,48 +134,54 @@ touch %{buildroot}%{_datadir}/guile/site/slib %{buildroot}%{_datadir}/guile/site
 %endif
 
 %triggerin -- slib
-ln -sfT ../../slib %{_datadir}/guile/site/slib
-rm -f %{_datadir}/guile/site/slibcat
+ln -sfT ../../slib %{_datadir}/%{name}/site/slib
+rm -f %{_datadir}/%{name}/site/slibcat
 SCHEME_LIBRARY_PATH=%{_datadir}/slib/ \
-    %{_bindir}/guile -l %{_datadir}/slib/guile.init -c "\
-    (define (implementation-vicinity) \"%{_datadir}/guile/site/\")
+    %{_bindir}/%{name} -l %{_datadir}/slib/%{name}.init -c "\
+    (define (implementation-vicinity) \"%{_datadir}/%{name}/site/\")
     (require 'new-catalog)" &> /dev/null
 :
 
 %triggerun -- slib
 if [ "$1" = 0 -o "$2" = 0 ]; then
-    rm -f %{_datadir}/guile/site/slib{,cat}
+    rm -f %{_datadir}/%{name}/site/slib{,cat}
 fi
 
 
 %files
 %defattr(-,root,root)
 %doc AUTHORS ChangeLog GUILE-VERSION LICENSE NEWS README THANKS
-%{_bindir}/guile
-%{_bindir}/guile-tools
-%{_datadir}/guile
+%{_bindir}/%{name}
+%{_bindir}/%{name}-tools
+%{_datadir}/%{name}
+%{_datadir}/emacs/site-lisp/*
 %{_infodir}/*
-%{_libdir}/libguile-srfi-srfi-13-14-v-3.so
-%{_libdir}/libguile-srfi-srfi-4-v-3.so
-%{_libdir}/libguile-srfi-srfi-1-v-3.so
-%{_libdir}/libguile-srfi-srfi-60-v-2.so
-%{_libdir}/libguilereadline-v-17.so
-%ghost %{_datadir}/guile/site/slib
-%ghost %{_datadir}/guile/site/slibcat
+%{_libdir}/lib%{name}-srfi-srfi-13-14-v-3.so
+%{_libdir}/lib%{name}-srfi-srfi-4-v-3.so
+%{_libdir}/lib%{name}-srfi-srfi-1-v-3.so
+%{_libdir}/lib%{name}-srfi-srfi-60-v-2.so
+%{_libdir}/lib%{name}readline-v-%{major}.so
+#%ghost %{_datadir}/%{name}/site/slib
+#%ghost %{_datadir}/%{name}/site/slibcat
 
 %files -n %{libname}
 %defattr(-,root,root)
-%{_libdir}/lib*.so.*
+%{_libdir}/lib*.so.%{major}*
+%{_libdir}/lib%{name}-srfi-srfi-13-14-v-3.so.3*
+%{_libdir}/lib%{name}-srfi-srfi-4-v-3.so.3*
+%{_libdir}/lib%{name}-srfi-srfi-1-v-3.so.3*
+%{_libdir}/lib%{name}-srfi-srfi-60-v-2.so.2*
 
 %files -n %{develname}
 %defattr(-,root,root)
-%doc ABOUT-NLS ANON-CVS HACKING INSTALL SNAPSHOTS libguile/ChangeLog*
-%multiarch %{multiarch_includedir}/libguile/scmconfig.h
-%{_bindir}/guile-config
-%{_bindir}/guile-snarf
+%doc ABOUT-NLS HACKING INSTALL libguile/ChangeLog*
+%multiarch %{multiarch_includedir}/lib%{name}/scmconfig.h
+%{_bindir}/%{name}-config
+%{_bindir}/%{name}-snarf
 %{_datadir}/aclocal/*
-%{_includedir}/libguile*
-%{_includedir}/guile*
+%{_includedir}/lib%{name}*
+%{_includedir}/%{name}*
 %{_libdir}/lib*.*a
-%{_libdir}/libguile.so
+%{_libdir}/lib%{name}.so
+%{_libdir}/pkgconfig/%{name}*.pc
 
