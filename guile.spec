@@ -154,7 +154,6 @@ fi
 %{_bindir}/%{name}
 %{_bindir}/%{name}-tools
 %{_datadir}/%{name}
-%{_datadir}/emacs/site-lisp/*
 %{_infodir}/*
 %{_libdir}/lib%{name}-srfi-srfi-13-14-v-3.so
 %{_libdir}/lib%{name}-srfi-srfi-4-v-3.so
