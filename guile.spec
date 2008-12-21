@@ -1,7 +1,7 @@
 %define major		17
 %define libname         %mklibname %{name} %{major}
 %define develname	%mklibname %{name} -d
-%define rel 1
+%define rel 2
 # (Abel) making guile require guile-devel means user need to download
 # more stuff, which is worse
 %define _requires_exceptions devel(.*)
@@ -18,6 +18,7 @@ Source0:        ftp://ftp.gnu.org/pub/gnu/guile/guile-%{version}.tar.gz
 Source1:        ftp://ftp.gnu.org/pub/gnu/guile/guile-%{version}.tar.gz.sig
 Patch0:         guile-1.8.3-64bit-fixes.patch
 Patch1:         guile-1.6.4-amd64.patch
+Patch2:		guile-1.8.5-drop-ldflags-from-pkgconfig.patch
 Requires(post): %{libname} = %{version}-%{release}
 Requires(post): rpm-helper
 Requires(preun): rpm-helper
@@ -26,6 +27,7 @@ BuildRequires:  libgmp-devel
 BuildRequires:  libltdl-devel
 BuildRequires:  libncurses-devel
 BuildRequires:  libreadline-devel
+BuildRequires:	gettext-devel
 # for srfi-19.test
 BuildRequires:  timezone
 
@@ -81,8 +83,10 @@ GNU Ubiquitous Intelligent Language for Extension
 %setup -q
 %patch0 -p1 -b .64bit-fixes
 %patch1 -p1 -b .amd64
+%patch2 -p0 -b .pkgconfig
 
 %build
+autoreconf
 %{configure2_5x} \
     --disable-error-on-warning \
     --disable-rpath \
