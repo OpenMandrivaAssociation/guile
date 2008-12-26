@@ -1,13 +1,13 @@
 %define major		17
 %define libname         %mklibname %{name} %{major}
 %define develname	%mklibname %{name} -d
-%define rel 2
+%define rel 1
 # (Abel) making guile require guile-devel means user need to download
 # more stuff, which is worse
 %define _requires_exceptions devel(.*)
 
 Name:           guile
-Version:        1.8.5
+Version:        1.8.6
 Release:        %mkrel %rel 
 Summary:        GNU implementation of Scheme for application extensibility
 License:        LGPLv2+
@@ -92,19 +92,20 @@ autoreconf
     --disable-rpath \
     --enable-dynamic-linking \
     --with-threads
-%{make} #LIBTOOL=%{_bindir}/libtool
+%{make} LIBTOOL=%{_bindir}/libtool
 
+%check
 %ifarch ia64
 # FAIL: r4rs.test: (6 9): (#<procedure leaf-eq? (x y)> (a (b (c))) ((a) b c))
-%{__make} check -k || :
+%{__make} check LIBTOOL=%{_bindir}/libtool -k || :
 %else
 # all tests must pass
-%{__make} check
+%{__make} check LIBTOOL=%{_bindir}/libtool
 %endif
 
 %install
 %{__rm} -rf %{buildroot}
-%{makeinstall_std}
+%{makeinstall_std} LIBTOOL=%{_bindir}/libtool
 
 %{__mkdir_p} %{buildroot}%{_datadir}/%{name}/site
 
@@ -158,6 +159,7 @@ fi
 %{_bindir}/%{name}
 %{_bindir}/%{name}-tools
 %{_datadir}/%{name}
+%{_mandir}/man1/guile.1.*
 %{_infodir}/*
 %{_libdir}/lib%{name}-srfi-srfi-13-14-v-3.so
 %{_libdir}/lib%{name}-srfi-srfi-4-v-3.so
