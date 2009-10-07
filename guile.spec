@@ -1,7 +1,7 @@
 %define major		17
 %define libname         %mklibname %{name} %{major}
 %define develname	%mklibname %{name} -d
-%define rel 3
+%define rel 4
 # (Abel) making guile require guile-devel means user need to download
 # more stuff, which is worse
 %define _requires_exceptions devel(.*)
@@ -155,7 +155,7 @@ fi
 
 %files
 %defattr(-,root,root)
-%doc AUTHORS ChangeLog GUILE-VERSION LICENSE NEWS README THANKS
+%doc AUTHORS ChangeLog GUILE-VERSION LICENSE README THANKS
 %{_bindir}/%{name}
 %{_bindir}/%{name}-tools
 %{_datadir}/%{name}
@@ -179,7 +179,7 @@ fi
 
 %files -n %{develname}
 %defattr(-,root,root)
-%doc ABOUT-NLS HACKING INSTALL libguile/ChangeLog*
+%doc ABOUT-NLS HACKING NEWS INSTALL libguile/ChangeLog*
 %multiarch %{multiarch_includedir}/lib%{name}/scmconfig.h
 %{_bindir}/%{name}-config
 %{_bindir}/%{name}-snarf
