@@ -1,13 +1,13 @@
 %define major		17
 %define libname         %mklibname %{name} %{major}
 %define develname	%mklibname %{name} -d
-%define rel 4
+%define rel 1
 # (Abel) making guile require guile-devel means user need to download
 # more stuff, which is worse
 %define _requires_exceptions devel(.*)
 
 Name:           guile
-Version:        1.8.6
+Version:        1.8.7
 Release:        %mkrel %rel 
 Summary:        GNU implementation of Scheme for application extensibility
 License:        LGPLv2+
