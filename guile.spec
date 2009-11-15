@@ -1,7 +1,7 @@
 %define major		17
 %define libname         %mklibname %{name} %{major}
 %define develname	%mklibname %{name} -d
-%define rel 1
+%define rel 2
 # (Abel) making guile require guile-devel means user need to download
 # more stuff, which is worse
 %define _requires_exceptions devel(.*)
