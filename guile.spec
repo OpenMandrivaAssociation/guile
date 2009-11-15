@@ -19,6 +19,7 @@ Source1:        ftp://ftp.gnu.org/pub/gnu/guile/guile-%{version}.tar.gz.sig
 Patch0:         guile-1.8.3-64bit-fixes.patch
 Patch1:         guile-1.6.4-amd64.patch
 Patch2:		guile-1.8.5-drop-ldflags-from-pkgconfig.patch
+Patch3:		guile-1.8.7-testsuite.patch
 Requires(post): %{libname} = %{version}-%{release}
 Requires(post): rpm-helper
 Requires(preun): rpm-helper
@@ -84,28 +85,29 @@ GNU Ubiquitous Intelligent Language for Extension
 %patch0 -p1 -b .64bit-fixes
 %patch1 -p1 -b .amd64
 %patch2 -p0 -b .pkgconfig
+%patch3 -p1 -b .testsuite
 
 %build
-autoreconf
+autoreconf -fi
 %{configure2_5x} \
     --disable-error-on-warning \
     --disable-rpath \
     --enable-dynamic-linking \
     --with-threads
-%{make} LIBTOOL=%{_bindir}/libtool
+%{make}
 
 %check
 %ifarch ia64
 # FAIL: r4rs.test: (6 9): (#<procedure leaf-eq? (x y)> (a (b (c))) ((a) b c))
-%{__make} check LIBTOOL=%{_bindir}/libtool -k || :
+%{__make} check -k || :
 %else
 # all tests must pass
-%{__make} check LIBTOOL=%{_bindir}/libtool
+%{__make} check
 %endif
 
 %install
 %{__rm} -rf %{buildroot}
-%{makeinstall_std} LIBTOOL=%{_bindir}/libtool
+%{makeinstall_std}
 
 %{__mkdir_p} %{buildroot}%{_datadir}/%{name}/site
 
