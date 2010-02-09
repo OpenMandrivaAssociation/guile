@@ -20,6 +20,7 @@ Patch0:         guile-1.8.3-64bit-fixes.patch
 Patch1:         guile-1.6.4-amd64.patch
 Patch2:		guile-1.8.5-drop-ldflags-from-pkgconfig.patch
 Patch3:		guile-1.8.7-testsuite.patch
+Patch4:		guile-1.8.7-testsuite2.patch
 Requires(post): %{libname} = %{version}-%{release}
 Requires(post): rpm-helper
 Requires(preun): rpm-helper
@@ -86,6 +87,7 @@ GNU Ubiquitous Intelligent Language for Extension
 %patch1 -p1 -b .amd64
 %patch2 -p0 -b .pkgconfig
 %patch3 -p1 -b .testsuite
+%patch4 -p1 -b .testsuite2
 
 %build
 autoreconf -fi
