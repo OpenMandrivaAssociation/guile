@@ -1,10 +1,11 @@
 %define major		17
 %define libname         %mklibname %{name} %{major}
 %define develname	%mklibname %{name} -d
-%define rel 3
+%define rel 4
 # (Abel) making guile require guile-devel means user need to download
 # more stuff, which is worse
 %define _requires_exceptions devel(.*)
+%define mver 1.8
 
 Name:           guile
 Version:        1.8.7
@@ -89,8 +90,9 @@ GNU Ubiquitous Intelligent Language for Extension
 %patch3 -p1 -b .testsuite
 %patch4 -p1 -b .testsuite2
 
-%build
 autoreconf -fi
+%build
+
 %{configure2_5x} \
     --disable-error-on-warning \
     --disable-rpath \
@@ -118,7 +120,7 @@ autoreconf -fi
 %{_bindir}/chrpath -d %{buildroot}{%{_bindir}/%{name},%{_libdir}/*.so.*.*.*}
 
 # create ghost file for packaging
-touch %{buildroot}%{_datadir}/%{name}/site/slib %{buildroot}%{_datadir}/%{name}/site/slibcat
+touch %{buildroot}%{_datadir}/%{name}/%{mver}/slib %{buildroot}%{_datadir}/%{name}/%{mver}/slibcat
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -143,17 +145,27 @@ touch %{buildroot}%{_datadir}/%{name}/site/slib %{buildroot}%{_datadir}/%{name}/
 %endif
 
 %triggerin -- slib
-ln -sfT ../../slib %{_datadir}/%{name}/site/slib
-rm -f %{_datadir}/%{name}/site/slibcat
-SCHEME_LIBRARY_PATH=%{_datadir}/slib/ \
-    %{_bindir}/%{name} -l %{_datadir}/slib/%{name}.init -c "\
-    (define (implementation-vicinity) \"%{_datadir}/%{name}/site/\")
-    (require 'new-catalog)" &> /dev/null
+# Remove files created in guile < 1.8.7-4mdv
+ln -sfT ../../slib %{_datadir}/guile/%{mver}/slib
+
+rm -f %{_datadir}/guile/%{mver}/slibcat
+export SCHEME_LIBRARY_PATH=%{_datadir}/slib/
+
+# Build SLIB catalog
+for pre in \
+    "(use-modules (ice-9 slib))" \
+    "(load \"%{_datadir}/slib/guile.init\")"
+do
+    %{_bindir}/guile -c "$pre
+        (set! implementation-vicinity (lambda () \"%{_datadir}/guile/%{mver}/\"))
+        (require 'new-catalog)" &> /dev/null && break
+    rm -f %{_datadir}/guile/%{mver}/slibcat
+done
 :
 
 %triggerun -- slib
 if [ "$1" = 0 -o "$2" = 0 ]; then
-    rm -f %{_datadir}/%{name}/site/slib{,cat}
+    rm -f %{_datadir}/guile/%{mver}/slib{,cat}
 fi
 
 
@@ -163,6 +175,8 @@ fi
 %{_bindir}/%{name}
 %{_bindir}/%{name}-tools
 %{_datadir}/%{name}
+%ghost %{_datadir}/%{name}/%{mver}/slibcat
+%ghost %{_datadir}/%{name}/%{mver}/slib
 %{_mandir}/man1/guile.1.*
 %{_infodir}/*
 %{_libdir}/lib%{name}-srfi-srfi-13-14-v-3.so
@@ -170,8 +184,6 @@ fi
 %{_libdir}/lib%{name}-srfi-srfi-1-v-3.so
 %{_libdir}/lib%{name}-srfi-srfi-60-v-2.so
 %{_libdir}/lib%{name}readline-v-%{major}.so
-#%ghost %{_datadir}/%{name}/site/slib
-#%ghost %{_datadir}/%{name}/site/slibcat
 
 %files -n %{libname}
 %defattr(-,root,root)
