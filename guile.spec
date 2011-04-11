@@ -1,14 +1,14 @@
 %define major		17
 %define libname         %mklibname %{name} %{major}
 %define develname	%mklibname %{name} -d
-%define rel 5
 # (Abel) making guile require guile-devel means user need to download
 # more stuff, which is worse
 %define _requires_exceptions devel(.*)
+%define rel 1
 %define mver 1.8
 
 Name:           guile
-Version:        1.8.7
+Version:        1.8.8
 Release:        %mkrel %rel 
 Summary:        GNU implementation of Scheme for application extensibility
 License:        LGPLv2+
@@ -21,7 +21,6 @@ Patch0:         guile-1.8.3-64bit-fixes.patch
 Patch1:         guile-1.6.4-amd64.patch
 Patch2:		guile-1.8.5-drop-ldflags-from-pkgconfig.patch
 Patch3:		guile-1.8.7-testsuite.patch
-Patch4:		guile-1.8.7-testsuite2.patch
 Requires(post): %{libname} = %{version}-%{release}
 Requires(post): rpm-helper
 Requires(preun): rpm-helper
@@ -88,7 +87,6 @@ GNU Ubiquitous Intelligent Language for Extension
 %patch1 -p1 -b .amd64
 %patch2 -p0 -b .pkgconfig
 %patch3 -p1 -b .testsuite
-%patch4 -p1 -b .testsuite2
 
 autoreconf -fi
 %build
