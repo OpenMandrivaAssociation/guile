@@ -4,12 +4,12 @@
 # (Abel) making guile require guile-devel means user need to download
 # more stuff, which is worse
 %define _requires_exceptions devel(.*)
-%define rel 1
+%define rel 2
 %define mver 1.8
 
 Name:           guile
 Version:        1.8.8
-Release:        %mkrel %rel 
+Release:        %mkrel %rel
 Summary:        GNU implementation of Scheme for application extensibility
 License:        LGPLv2+
 Group:          Development/Other
@@ -194,12 +194,13 @@ fi
 %files -n %{develname}
 %defattr(-,root,root)
 %doc ABOUT-NLS HACKING NEWS INSTALL libguile/ChangeLog*
-%multiarch %{multiarch_includedir}/lib%{name}/scmconfig.h
 %{_bindir}/%{name}-config
 %{_bindir}/%{name}-snarf
 %{_datadir}/aclocal/*
 %{_includedir}/lib%{name}*
 %{_includedir}/%{name}*
+%dir %{multiarch_includedir}/lib%{name}
+%{multiarch_includedir}/lib%{name}/scmconfig.h
 %{_libdir}/lib*.*a
 %{_libdir}/lib%{name}.so
 %{_libdir}/pkgconfig/%{name}*.pc
