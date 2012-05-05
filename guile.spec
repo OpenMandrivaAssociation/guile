@@ -186,9 +186,6 @@ fi
 %files runtime
 %{_libdir}/%{name}/%{api}/*
 %{_datadir}/%{name}/%{api}/*
-# ugly workaround to not list files twice
-%exclude %{_datadir}/%{name}/%{api}/slibcat
-%exclude %{_datadir}/%{name}/%{api}/slib
 %ghost %{_datadir}/%{name}/%{api}/slibcat
 %ghost %{_datadir}/%{name}/%{api}/slib
 
