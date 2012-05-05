@@ -1,63 +1,35 @@
-%define major		17
-%define libname		%mklibname %{name} %{major}
+%define major		22
+%define	api		2.0
+%define libname         %mklibname %{name} %{api} %{major}
 %define develname	%mklibname %{name} -d
-# (Abel) making guile require guile-devel means user need to download
-# more stuff, which is worse
-%define _requires_exceptions devel(.*)
-%define mver 1.8
 
-Name:		guile
-Version:	1.8.8
-Release:	%mkrel 3
+%define rlmajor		18
+%define rlapi		18
+%define rllibname	%mklibname %{name}readline %{rlapi} %{rlmajor}
+
 Summary:	GNU implementation of Scheme for application extensibility
+Name:		guile
+Version:	2.0.5
+Release:	1
 License:	LGPLv2+
 Group:		Development/Other
 URL:		http://www.gnu.org/software/guile/guile.html
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root
 Source0:	ftp://ftp.gnu.org/pub/gnu/guile/guile-%{version}.tar.gz
-Source1:	ftp://ftp.gnu.org/pub/gnu/guile/guile-%{version}.tar.gz.sig
-Patch0:		guile-1.8.3-64bit-fixes.patch
-Patch1:		guile-1.6.4-amd64.patch
-Patch2:		guile-1.8.5-drop-ldflags-from-pkgconfig.patch
-Patch3:		guile-1.8.7-testsuite.patch
-Requires(post):	%{libname} = %{version}-%{release}
-Requires(post):	rpm-helper
-Requires(preun): rpm-helper
-BuildRequires:	chrpath
+Source1:	%{SOURCE0}.sig
+Patch0:		guile-2.0.3-64bit-fixes.patch
+Patch1:		guile-2.0.3-drop-ldflags-from-pkgconfig.patch
+Patch3:		guile-2.0.5-turn-off-gc-test.patch
+Patch4:		guile-2.0.3-mktemp.patch
+
 BuildRequires:	libgmp-devel
 BuildRequires:	libltdl-devel
 BuildRequires:	libncurses-devel
 BuildRequires:	libreadline-devel
 BuildRequires:	gettext-devel
+BuildRequires:	pkgconfig(bdw-gc)
 # for srfi-19.test
 BuildRequires:	timezone
-
-%package -n %{libname}
-Summary:	Libraries for Guile %{version}
-Group:		System/Libraries
-Requires:	%{name} = %{version}
-
-%package -n %{develname}
-Summary:	Development headers and static library for libguile
-Group:		Development/C
-Requires:	%{libname} = %{version}
-Provides:	libguile-devel = %{version}-%{release}
-Provides:	guile-devel = %{version}-%{release}
-Obsoletes:	guile-devel
-Obsoletes:	%{mklibname guile 17 -d}
-Requires:	libgmp-devel
-Requires:	libtool-devel
-# (Abel) here comes the definition of "ugliness"
-%ifarch x86_64 ia64 amd64 sparc64 ppc64
-Requires:	devel(libcrypt(64bit))
-Requires:	devel(libdl(64bit))
-Requires:	devel(libm(64bit))
-#i (misc) removed, no quickthread on 64 bit
-%else
-Requires:	devel(libcrypt)
-Requires:	devel(libdl)
-Requires:	devel(libm)
-%endif
+BuildRequires:	chrpath
 
 %description
 GUILE (GNU's Ubiquitous Intelligent Language for Extension) is a
@@ -69,10 +41,27 @@ Install the guile package if you'd like to add extensibility to
 programs that you are developing. You'll also need to install the
 guile-devel package.
 
+%package -n %{libname}
+Summary:	Libraries for Guile %{version}
+Group:		System/Libraries
+Requires:	%{name}-runtime = %{version}-%{release}
+
 %description -n %{libname}
-This package contains Guile shared object libraries and the ice-9
-scheme module. Guile is the GNU Ubiquitous Intelligent Language for
-Extension.
+This package contains Guile shared object libraries.
+
+%package -n %{rllibname}
+Summary:	Libraries for Guile %{version}
+Group:		System/Libraries
+
+%description -n %{rllibname}
+This package contains Guile shared object libraries.
+
+%package -n %{develname}
+Summary:	Development headers and static library for libguile
+Group:		Development/C
+Requires:	%{libname} = %{version}-%{release}
+Requires:	%{rllibname} = %{version}-%{release}
+Provides:	%{name}-devel = %{version}-%{release}
 
 %description -n %{develname}
 This package contains the development headers and the static library
@@ -80,46 +69,56 @@ for libguile. C headers, aclocal macros, the `guile1.4-snarf' and
 `guile-config' utilities, and static `libguile' library for Guile, the
 GNU Ubiquitous Intelligent Language for Extension
 
+%package runtime
+Summary:        Guile runtime library
+Group:          System/Libraries
+Conflicts:	%{name} < 2.0.5-2
+
+%description runtime
+This package contains Scheme runtime for GUILE, including ice-9
+Scheme module.
+
 %prep
 %setup -q
-%patch0 -p1 -b .64bit-fixes
-%patch1 -p1 -b .amd64
-%patch2 -p0 -b .pkgconfig
-%patch3 -p1 -b .testsuite
+%apply_patches
+
+#fix encodings
+for i in libguile/ChangeLog*; do
+	mv $i $i.old
+	iconv -f ISO8859-1 -t UTF-8 $i.old -o $i
+done
 
 %build
-autoreconf -fi
+autoreconf -vfi
 %configure2_5x \
-    --disable-error-on-warning \
-    --disable-rpath \
-    --enable-dynamic-linking \
-    --with-threads
+	--disable-error-on-warning \
+	--disable-rpath \
+	--disable-static \
+	--with-threads \
+	--with-pic
+
 %make
 
-%check
-%ifarch ia64
-# FAIL: r4rs.test: (6 9): (#<procedure leaf-eq? (x y)> (a (b (c))) ((a) b c))
-%__make check -k || :
-%else
-# all tests must pass
-%__make check
-%endif
-
 %install
-%__rm -rf %{buildroot}
 %makeinstall_std
 
-%__mkdir_p %{buildroot}%{_datadir}/%{name}/site
+#remove rpath
+chrpath -d %{buildroot}%{_bindir}/%{name}
 
-%multiarch_includes %{buildroot}%{_includedir}/lib%{name}/scmconfig.h
+#we don't want these
+find %{buildroot} -name "*.la" -delete
 
-%{_bindir}/chrpath -d %{buildroot}{%{_bindir}/%{name},%{_libdir}/*.so.*.*.*}
+#for ghost files
+touch %{buildroot}%{_datadir}/%{name}/%{api}/slibcat
+touch %{buildroot}%{_datadir}/%{name}/%{api}/slib
 
-# create ghost file for packaging
-touch %{buildroot}%{_datadir}/%{name}/%{mver}/slib %{buildroot}%{_datadir}/%{name}/%{mver}/slibcat
+#slib needs this
+mkdir -p %{buildroot}%{_datadir}/guile/site
 
-%clean
-%__rm -rf %{buildroot}
+%if 0
+%check
+%make check
+%endif
 
 %post
 %_install_info %{name}-tut.info
@@ -134,10 +133,9 @@ touch %{buildroot}%{_datadir}/%{name}/%{mver}/slib %{buildroot}%{_datadir}/%{nam
 %_remove_install_info goops.info
 
 %triggerin -- slib
-# Remove files created in guile < 1.8.7-4mdv
-%__ln -sfT ../../slib %{_datadir}/guile/%{mver}/slib
+ln -sfT ../../slib %{_datadir}/guile/%{api}/slib
 
-%__rm -f %{_datadir}/guile/%{mver}/slibcat
+rm -f %{_datadir}/guile/%{mver}/slibcat
 export SCHEME_LIBRARY_PATH=%{_datadir}/slib/
 
 # Build SLIB catalog
@@ -146,53 +144,51 @@ for pre in \
     "(load \"%{_datadir}/slib/guile.init\")"
 do
     %{_bindir}/guile -c "$pre
-        (set! implementation-vicinity (lambda () \"%{_datadir}/guile/%{mver}/\"))
+        (set! implementation-vicinity (lambda () \"%{_datadir}/guile/%{api}/\"))
         (require 'new-catalog)" &> /dev/null && break
-    %__rm -f %{_datadir}/guile/%{mver}/slibcat
+    rm -f %{_datadir}/guile/%{api}/slibcat
 done
 :
 
 %triggerun -- slib
 if [ "$1" = 0 -o "$2" = 0 ]; then
-    %__rm -f %{_datadir}/guile/%{mver}/slib{,cat}
+    rm -f %{_datadir}/guile/%{api}/slib{,cat}
 fi
 
-
 %files
-%defattr(-,root,root)
 %doc AUTHORS ChangeLog GUILE-VERSION LICENSE README THANKS
 %{_bindir}/%{name}
 %{_bindir}/%{name}-tools
+%{_bindir}/guild
+%{_libdir}/%{name}
+%exclude %{_libdir}/%{name}/%{api}
 %{_datadir}/%{name}
-%ghost %{_datadir}/%{name}/%{mver}/slibcat
-%ghost %{_datadir}/%{name}/%{mver}/slib
+%exclude %{_datadir}/%{name}/%{api}
 %{_mandir}/man1/guile.1.*
 %{_infodir}/*
-%{_libdir}/lib%{name}-srfi-srfi-13-14-v-3.so
-%{_libdir}/lib%{name}-srfi-srfi-4-v-3.so
-%{_libdir}/lib%{name}-srfi-srfi-1-v-3.so
-%{_libdir}/lib%{name}-srfi-srfi-60-v-2.so
-%{_libdir}/lib%{name}readline-v-%{major}.so
 
 %files -n %{libname}
-%defattr(-,root,root)
-%{_libdir}/lib*.so.%{major}*
-%{_libdir}/lib%{name}-srfi-srfi-13-14-v-3.so.3*
-%{_libdir}/lib%{name}-srfi-srfi-4-v-3.so.3*
-%{_libdir}/lib%{name}-srfi-srfi-1-v-3.so.3*
-%{_libdir}/lib%{name}-srfi-srfi-60-v-2.so.2*
+%{_libdir}/lib%{name}-%{api}.so.%{major}*
+
+%files -n %{rllibname}
+%{_libdir}/lib%{name}readline-v-%{rlapi}.so.%{rlmajor}*
 
 %files -n %{develname}
-%defattr(-,root,root)
-%doc ABOUT-NLS HACKING NEWS INSTALL libguile/ChangeLog*
+%doc HACKING NEWS libguile/ChangeLog*
 %{_bindir}/%{name}-config
 %{_bindir}/%{name}-snarf
 %{_datadir}/aclocal/*
-%{_includedir}/lib%{name}*
-%{_includedir}/%{name}*
-%dir %{multiarch_includedir}/lib%{name}
-%{multiarch_includedir}/lib%{name}/scmconfig.h
-%{_libdir}/lib*.*a
-%{_libdir}/lib%{name}.so
+%{_includedir}/%{name}
+%{_libdir}/lib%{name}-%{api}.so
+%{_libdir}/lib%{name}readline-v-%{rlapi}.so
 %{_libdir}/pkgconfig/%{name}*.pc
+
+%files runtime
+%{_libdir}/%{name}/%{api}/*
+%{_datadir}/%{name}/%{api}/*
+# ugly workaround to not list files twice
+%exclude %{_datadir}/%{name}/%{api}/slibcat
+%exclude %{_datadir}/%{name}/%{api}/slib
+%ghost %{_datadir}/%{name}/%{api}/slibcat
+%ghost %{_datadir}/%{name}/%{api}/slib
 
