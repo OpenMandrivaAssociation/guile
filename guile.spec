@@ -14,7 +14,7 @@ Release:	1
 License:	LGPLv2+
 Group:		Development/Other
 URL:		http://www.gnu.org/software/guile/guile.html
-Source0:	ftp://ftp.gnu.org/pub/gnu/guile/guile-%{version}.tar.gz
+Source0:	ftp://ftp.gnu.org/pub/gnu/guile/guile-%{version}.tar.xz
 Source1:	%{SOURCE0}.sig
 Patch0:		guile-2.0.3-64bit-fixes.patch
 Patch1:		guile-2.0.3-drop-ldflags-from-pkgconfig.patch
