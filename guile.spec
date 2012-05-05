@@ -21,15 +21,15 @@ Patch1:		guile-2.0.3-drop-ldflags-from-pkgconfig.patch
 Patch3:		guile-2.0.5-turn-off-gc-test.patch
 Patch4:		guile-2.0.3-mktemp.patch
 
-BuildRequires:	libgmp-devel
-BuildRequires:	libltdl-devel
-BuildRequires:	libncurses-devel
-BuildRequires:	libreadline-devel
-BuildRequires:	gettext-devel
-BuildRequires:	pkgconfig(bdw-gc)
+BuildRequires:	chrpath
 # for srfi-19.test
 BuildRequires:	timezone
-BuildRequires:	chrpath
+BuildRequires:	gettext-devel
+BuildRequires:	gmp-devel
+BuildRequires:	libltdl-devel
+BuildRequires:	ncurses-devel
+BuildRequires:	readline-devel
+BuildRequires:	pkgconfig(bdw-gc)
 
 %description
 GUILE (GNU's Ubiquitous Intelligent Language for Extension) is a
