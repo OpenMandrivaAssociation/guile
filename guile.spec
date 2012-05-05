@@ -26,7 +26,7 @@ BuildRequires:	chrpath
 BuildRequires:	timezone
 BuildRequires:	gettext-devel
 BuildRequires:	gmp-devel
-BuildRequires:	libltdl-devel
+BuildRequires:	libtool-devel
 BuildRequires:	ncurses-devel
 BuildRequires:	readline-devel
 BuildRequires:	pkgconfig(bdw-gc)
