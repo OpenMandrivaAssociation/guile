@@ -185,7 +185,18 @@ fi
 
 %files runtime
 %{_libdir}/%{name}/%{api}/*
-%{_datadir}/%{name}/%{api}/*
+%{_datadir}/%{name}/%{api}/*.scm
+%{_datadir}/%{name}/%{api}/*.txt
+%{_datadir}/%{name}/%{api}/ice-9/*
+%{_datadir}/%{name}/%{api}/language/*
+%{_datadir}/%{name}/%{api}/oop/*
+%{_datadir}/%{name}/%{api}/rnrs/*
+%{_datadir}/%{name}/%{api}/scripts/*
+%{_datadir}/%{name}/%{api}/srfi/*
+%{_datadir}/%{name}/%{api}/sxml/*
+%{_datadir}/%{name}/%{api}/system/*
+%{_datadir}/%{name}/%{api}/texinfo/*
+%{_datadir}/%{name}/%{api}/web/*
 %ghost %{_datadir}/%{name}/%{api}/slibcat
 %ghost %{_datadir}/%{name}/%{api}/slib
 
