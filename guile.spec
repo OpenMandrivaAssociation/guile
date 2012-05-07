@@ -10,7 +10,7 @@
 Summary:	GNU implementation of Scheme for application extensibility
 Name:		guile
 Version:	2.0.5
-Release:	1
+Release:	2
 License:	LGPLv2+
 Group:		Development/Other
 URL:		http://www.gnu.org/software/guile/guile.html
@@ -72,7 +72,7 @@ GNU Ubiquitous Intelligent Language for Extension
 %package runtime
 Summary:        Guile runtime library
 Group:          System/Libraries
-Conflicts:	%{name} < 2.0.5-2
+Conflicts:	%{name} < 2.0.5-1
 
 %description runtime
 This package contains Scheme runtime for GUILE, including ice-9
