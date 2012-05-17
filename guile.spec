@@ -10,7 +10,7 @@
 Summary:	GNU implementation of Scheme for application extensibility
 Name:		guile
 Version:	2.0.5
-Release:	2
+Release:	3
 License:	LGPLv2+
 Group:		Development/Other
 URL:		http://www.gnu.org/software/guile/guile.html
@@ -59,6 +59,7 @@ This package contains Guile shared object libraries.
 %package -n %{develname}
 Summary:	Development headers and static library for libguile
 Group:		Development/C
+Requires:	%{name} >= %{version}-%{release}
 Requires:	%{libname} = %{version}-%{release}
 Requires:	%{rllibname} = %{version}-%{release}
 Provides:	%{name}-devel = %{version}-%{release}
