@@ -1,0 +1,35 @@
+Index: ./libguile/hash.c
+===================================================================
+--- ./libguile/hash.c.orig
++++ ./libguile/hash.c
+@@ -270,7 +270,7 @@ scm_hasher(SCM obj, unsigned long n, siz
+ unsigned long
+ scm_ihashq (SCM obj, unsigned long n)
+ {
+-  return (SCM_UNPACK (obj) >> 1) % n;
++  return ((unsigned long) SCM_UNPACK (obj) >> 1) % n;
+ }
+ 
+ 
+@@ -306,7 +306,7 @@ scm_ihashv (SCM obj, unsigned long n)
+   if (SCM_NUMP(obj))
+     return (unsigned long) scm_hasher(obj, n, 10);
+   else
+-    return SCM_UNPACK (obj) % n;
++    return (unsigned long) SCM_UNPACK (obj) % n;
+ }
+ 
+ 
+Index: ./libguile/struct.c
+===================================================================
+--- ./libguile/struct.c.orig
++++ ./libguile/struct.c
+@@ -942,7 +942,7 @@ scm_struct_ihashq (SCM obj, unsigned lon
+ {
+   /* The length of the hash table should be a relative prime it's not
+      necessary to shift down the address.  */
+-  return SCM_UNPACK (obj) % n;
++  return (unsigned long) SCM_UNPACK (obj) % n;
+ }
+ 
+ SCM_DEFINE (scm_struct_vtable_name, "struct-vtable-name", 1, 0, 0, 

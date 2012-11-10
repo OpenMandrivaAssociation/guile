@@ -1,0 +1,12 @@
+diff -p -up ./configure.ac.orig ./configure.ac
+--- ./configure.ac.orig	2011-12-27 19:32:34.508896369 +0000
++++ ./configure.ac	2011-12-27 19:33:32.082213644 +0000
+@@ -1615,7 +1615,7 @@ do
+ done
+ 
+ GUILE_CFLAGS="$GUILE_CFLAGS $PTHREAD_CFLAGS"
+-GUILE_LIBS="$LDFLAGS $LIBS"
++GUILE_LIBS="$LIBS"
+ 
+ AC_SUBST(GUILE_LIBS)
+ AC_SUBST(GUILE_CFLAGS)
