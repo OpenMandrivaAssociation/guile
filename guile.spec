@@ -1,21 +1,21 @@
-%define major		22
-%define	api		2.0
-%define libname         %mklibname %{name} %{api} %{major}
-%define develname	%mklibname %{name} -d
+%define major	22
+%define	api	2.0
+%define libname	%mklibname %{name} %{api} %{major}
+%define devname	%mklibname %{name} -d
 
-%define rlmajor		18
-%define rlapi		18
+%define rlmajor	18
+%define rlapi	18
 %define rllibname	%mklibname %{name}readline %{rlapi} %{rlmajor}
 
 Summary:	GNU implementation of Scheme for application extensibility
 Name:		guile
-Version:	2.0.5
-Release:	3
+Version:	2.0.7
+Release:	1
 License:	LGPLv2+
 Group:		Development/Other
 URL:		http://www.gnu.org/software/guile/guile.html
-Source0:	ftp://ftp.gnu.org/pub/gnu/guile/guile-%{version}.tar.xz
-Source1:	%{SOURCE0}.sig
+Source0:	ftp://ftp.gnu.org/pub/gnu/guile/%{name}-%{version}.tar.xz
+Source1:	ftp://ftp.gnu.org/pub/gnu/guile/%{name}-%{version}.tar.xz.sig
 Patch0:		guile-2.0.3-64bit-fixes.patch
 Patch1:		guile-2.0.3-drop-ldflags-from-pkgconfig.patch
 Patch3:		guile-2.0.5-turn-off-gc-test.patch
@@ -56,7 +56,7 @@ Group:		System/Libraries
 %description -n %{rllibname}
 This package contains Guile shared object libraries.
 
-%package -n %{develname}
+%package -n %{devname}
 Summary:	Development headers and static library for libguile
 Group:		Development/C
 Requires:	%{name} >= %{version}-%{release}
@@ -64,7 +64,7 @@ Requires:	%{libname} = %{version}-%{release}
 Requires:	%{rllibname} = %{version}-%{release}
 Provides:	%{name}-devel = %{version}-%{release}
 
-%description -n %{develname}
+%description -n %{devname}
 This package contains the development headers and the static library
 for libguile. C headers, aclocal macros, the `guile1.4-snarf' and
 `guile-config' utilities, and static `libguile' library for Guile, the
@@ -121,18 +121,6 @@ mkdir -p %{buildroot}%{_datadir}/guile/site
 %make check
 %endif
 
-%post
-%_install_info %{name}-tut.info
-%_install_info %{name}.info
-%_install_info r5rs.info
-%_install_info goops.info
-
-%preun
-%_remove_install_info %{name}-tut.info
-%_remove_install_info %{name}.info
-%_remove_install_info r5rs.info
-%_remove_install_info goops.info
-
 %triggerin -- slib
 ln -sfT ../../slib %{_datadir}/guile/%{api}/slib
 
@@ -174,7 +162,7 @@ fi
 %files -n %{rllibname}
 %{_libdir}/lib%{name}readline-v-%{rlapi}.so.%{rlmajor}*
 
-%files -n %{develname}
+%files -n %{devname}
 %doc HACKING NEWS libguile/ChangeLog*
 %{_bindir}/%{name}-config
 %{_bindir}/%{name}-snarf
