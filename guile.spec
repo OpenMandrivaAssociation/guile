@@ -16,9 +16,9 @@ Group:		Development/Other
 URL:		http://www.gnu.org/software/guile/guile.html
 Source0:	ftp://ftp.gnu.org/pub/gnu/guile/%{name}-%{version}.tar.xz
 Source1:	ftp://ftp.gnu.org/pub/gnu/guile/%{name}-%{version}.tar.xz.sig
-Patch0:		guile-2.0.3-64bit-fixes.patch
-Patch1:		guile-2.0.3-drop-ldflags-from-pkgconfig.patch
-Patch3:		guile-2.0.5-turn-off-gc-test.patch
+Patch0:		guile-2.0.7-64bit-fixes.patch
+Patch1:		guile-2.0.7-drop-ldflags-from-pkgconfig.patch
+Patch3:		guile-2.0.7-turn-off-gc-test.patch
 Patch4:		guile-2.0.3-mktemp.patch
 
 BuildRequires:	chrpath

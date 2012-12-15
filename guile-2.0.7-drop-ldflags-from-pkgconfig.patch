@@ -1,7 +1,6 @@
-diff -p -up ./configure.ac.orig ./configure.ac
---- ./configure.ac.orig	2011-12-27 19:32:34.508896369 +0000
-+++ ./configure.ac	2011-12-27 19:33:32.082213644 +0000
-@@ -1615,7 +1615,7 @@ do
+--- guile-2.0.7/configure.ac.orig	2012-11-28 21:53:16.000000000 +0000
++++ guile-2.0.7/configure.ac	2012-12-15 22:11:43.701232939 +0000
+@@ -1574,7 +1574,7 @@
  done
  
  GUILE_CFLAGS="$GUILE_CFLAGS $PTHREAD_CFLAGS"
