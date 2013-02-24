@@ -83,6 +83,7 @@ Scheme module.
 %prep
 %setup -q
 %apply_patches
+autoreconf -vfi
 
 #fix encodings
 for i in libguile/ChangeLog*; do
@@ -91,7 +92,6 @@ for i in libguile/ChangeLog*; do
 done
 
 %build
-autoreconf -vfi
 %configure2_5x \
 	--disable-error-on-warning \
 	--disable-rpath \
