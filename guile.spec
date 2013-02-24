@@ -10,7 +10,7 @@
 Summary:	GNU implementation of Scheme for application extensibility
 Name:		guile
 Version:	2.0.7
-Release:	1
+Release:	2
 License:	LGPLv2+
 Group:		Development/Other
 URL:		http://www.gnu.org/software/guile/guile.html
@@ -30,6 +30,7 @@ BuildRequires:	libtool-devel
 BuildRequires:	ncurses-devel
 BuildRequires:	readline-devel
 BuildRequires:	pkgconfig(bdw-gc)
+BuildRequires:	texinfo
 
 %description
 GUILE (GNU's Ubiquitous Intelligent Language for Extension) is a
