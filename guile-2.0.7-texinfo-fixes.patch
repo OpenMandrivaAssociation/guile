@@ -1,0 +1,43 @@
+--- guile-2.0.7/config.h.in~	2012-11-28 22:55:52.000000000 +0100
++++ guile-2.0.7/config.h.in	2013-02-24 05:40:20.000000000 +0100
+@@ -367,11 +367,11 @@ Floor, Boston, MA 02110-1301, USA.
+ /* Define to 1 if you have the `cexp' function. */
+ #undef HAVE_CEXP
+ 
+-/* Define to 1 if you have the MacOS X function CFLocaleCopyCurrent in the
++/* Define to 1 if you have the Mac OS X function CFLocaleCopyCurrent in the
+    CoreFoundation framework. */
+ #undef HAVE_CFLOCALECOPYCURRENT
+ 
+-/* Define to 1 if you have the MacOS X function CFPreferencesCopyAppValue in
++/* Define to 1 if you have the Mac OS X function CFPreferencesCopyAppValue in
+    the CoreFoundation framework. */
+ #undef HAVE_CFPREFERENCESCOPYAPPVALUE
+ 
+--- guile-2.0.7/doc/ref/api-control.texi~	2012-07-06 22:09:10.000000000 +0200
++++ guile-2.0.7/doc/ref/api-control.texi	2013-02-24 07:05:26.053472411 +0100
+@@ -1731,8 +1731,7 @@ and the call to these routines doesn't c
+ @deftypefnx {C Function} void scm_wrong_num_args (SCM @var{proc})
+ @deftypefnx {C Function} void scm_wrong_type_arg (char *@var{subr}, int @var{argnum}, SCM @var{bad_value})
+ @deftypefnx {C Function} void scm_wrong_type_arg_msg (char *@var{subr}, int @var{argnum}, SCM @var{bad_value}, const char *@var{expected})
+-@deftypefnx {C Function} void scm_memory_error (char *@var{subr})
+-Throw an error with the various keys described above.
++@deftypefnx {C Function} void scm_memory_error (char *@var{subr}) Throw an error with the various keys described above.
+ @deftypefnx {C Function} void scm_misc_error (const char *@var{subr}, const char *@var{message}, SCM @var{args})
+ 
+ In @code{scm_wrong_num_args}, @var{proc} should be a Scheme symbol
+--- guile-2.0.7/doc/ref/r6rs.texi~	2012-11-27 00:10:24.000000000 +0100
++++ guile-2.0.7/doc/ref/r6rs.texi	2013-02-24 07:04:36.403628251 +0100
+@@ -273,10 +273,8 @@ grouped below by the existing manual sec
+ @end deffn
+ 
+ @deffn {Scheme Syntax} define-syntax keyword expression
+-@deffnx {Scheme Syntax} let-syntax ((keyword transformer) @dots{})
+-                        exp1 exp2 @dots{}
+-@deffnx {Scheme Syntax} letrec-syntax ((keyword transformer) @dots{})
+-                        exp1 exp2 @dots{}
++@deffnx {Scheme Syntax} let-syntax ((keyword transformer) @dots{}) exp1 exp2 @dots{}
++@deffnx {Scheme Syntax} letrec-syntax ((keyword transformer) @dots{}) exp1 exp2 @dots{}
+ @xref{Defining Macros}, for documentation.
+ @end deffn
+ 
