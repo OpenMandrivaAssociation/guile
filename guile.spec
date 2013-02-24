@@ -27,7 +27,7 @@ BuildRequires:	timezone
 BuildRequires:	gettext-devel
 BuildRequires:	gmp-devel
 BuildRequires:	libtool-devel
-BuildRequires:	ncurses-devel
+BuildRequires:	pkgconfig(ncursesw)
 BuildRequires:	readline-devel
 BuildRequires:	pkgconfig(bdw-gc)
 BuildRequires:	texinfo
@@ -42,22 +42,22 @@ Install the guile package if you'd like to add extensibility to
 programs that you are developing. You'll also need to install the
 guile-devel package.
 
-%package -n %{libname}
+%package -n	%{libname}
 Summary:	Libraries for Guile %{version}
 Group:		System/Libraries
 Requires:	%{name}-runtime = %{version}-%{release}
 
-%description -n %{libname}
+%description -n	%{libname}
 This package contains Guile shared object libraries.
 
-%package -n %{rllibname}
+%package -n	%{rllibname}
 Summary:	Libraries for Guile %{version}
 Group:		System/Libraries
 
-%description -n %{rllibname}
+%description -n	%{rllibname}
 This package contains Guile shared object libraries.
 
-%package -n %{devname}
+%package -n	%{devname}
 Summary:	Development headers and static library for libguile
 Group:		Development/C
 Requires:	%{name} >= %{version}-%{release}
@@ -65,18 +65,18 @@ Requires:	%{libname} = %{version}-%{release}
 Requires:	%{rllibname} = %{version}-%{release}
 Provides:	%{name}-devel = %{version}-%{release}
 
-%description -n %{devname}
+%description -n	%{devname}
 This package contains the development headers and the static library
 for libguile. C headers, aclocal macros, the `guile1.4-snarf' and
 `guile-config' utilities, and static `libguile' library for Guile, the
 GNU Ubiquitous Intelligent Language for Extension
 
-%package runtime
+%package	runtime
 Summary:        Guile runtime library
 Group:          System/Libraries
 Conflicts:	%{name} < 2.0.5-1
 
-%description runtime
+%description	runtime
 This package contains Scheme runtime for GUILE, including ice-9
 Scheme module.
 
