@@ -13,7 +13,7 @@ Version:	2.0.7
 Release:	2
 License:	LGPLv2+
 Group:		Development/Other
-URL:		http://www.gnu.org/software/guile/guile.html
+Url:		http://www.gnu.org/software/guile/guile.html
 Source0:	ftp://ftp.gnu.org/pub/gnu/guile/%{name}-%{version}.tar.xz
 Source1:	ftp://ftp.gnu.org/pub/gnu/guile/%{name}-%{version}.tar.xz.sig
 Patch0:		guile-2.0.7-64bit-fixes.patch
@@ -23,15 +23,15 @@ Patch4:		guile-2.0.3-mktemp.patch
 Patch5:		guile-2.0.7-texinfo-fixes.patch
 
 BuildRequires:	chrpath
+BuildRequires:	texinfo
 # for srfi-19.test
 BuildRequires:	timezone
 BuildRequires:	gettext-devel
 BuildRequires:	gmp-devel
 BuildRequires:	libtool-devel
-BuildRequires:	pkgconfig(ncursesw)
 BuildRequires:	readline-devel
+BuildRequires:	pkgconfig(ncursesw)
 BuildRequires:	pkgconfig(bdw-gc)
-BuildRequires:	texinfo
 
 %description
 GUILE (GNU's Ubiquitous Intelligent Language for Extension) is a
@@ -107,9 +107,6 @@ done
 
 #remove rpath
 chrpath -d %{buildroot}%{_bindir}/%{name}
-
-#we don't want these
-find %{buildroot} -name "*.la" -delete
 
 #for ghost files
 touch %{buildroot}%{_datadir}/%{name}/%{api}/slibcat
