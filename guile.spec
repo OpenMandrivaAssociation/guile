@@ -6,11 +6,12 @@
 %define rlmajor	18
 %define rlapi	18
 %define rllibname	%mklibname %{name}readline %{rlapi} %{rlmajor}
+%bcond_without	bootstrap
 
 Summary:	GNU implementation of Scheme for application extensibility
 Name:		guile
-Version:	2.0.7
-Release:	6
+Version:	2.0.9
+Release:	1
 License:	LGPLv2+
 Group:		Development/Other
 Url:		http://www.gnu.org/software/guile/guile.html
@@ -20,10 +21,11 @@ Patch0:		guile-2.0.7-64bit-fixes.patch
 Patch1:		guile-2.0.7-drop-ldflags-from-pkgconfig.patch
 Patch3:		guile-2.0.7-turn-off-gc-test.patch
 Patch4:		guile-2.0.3-mktemp.patch
-Patch5:		guile-2.0.7-texinfo-fixes.patch
 
 BuildRequires:	chrpath
+%if !%{with bootstrap}
 BuildRequires:	texinfo
+%endif
 # for srfi-19.test
 BuildRequires:	timezone
 BuildRequires:	gettext-devel
@@ -115,10 +117,9 @@ touch %{buildroot}%{_datadir}/%{name}/%{api}/slib
 #slib needs this
 mkdir -p %{buildroot}%{_datadir}/guile/site
 
-%if 0
 %check
-%make check
-%endif
+# not working
+#make check
 
 %triggerin -- slib
 ln -sfT ../../slib %{_datadir}/guile/%{api}/slib
