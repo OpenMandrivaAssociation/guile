@@ -6,7 +6,7 @@
 %define rlmajor	18
 %define rlapi	18
 %define rllibname	%mklibname %{name}readline %{rlapi} %{rlmajor}
-%bcond_without	bootstrap
+%bcond_with	bootstrap
 
 Summary:	GNU implementation of Scheme for application extensibility
 Name:		guile
@@ -188,4 +188,3 @@ fi
 %{_datadir}/%{name}/%{api}/web/*
 %ghost %{_datadir}/%{name}/%{api}/slibcat
 %ghost %{_datadir}/%{name}/%{api}/slib
-
