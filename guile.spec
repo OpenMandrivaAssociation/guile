@@ -23,6 +23,7 @@ Patch3:		guile-2.0.7-turn-off-gc-test.patch
 Patch4:		guile-2.0.3-mktemp.patch
 
 BuildRequires:	chrpath
+BuildRequires:	libunistring-devel
 %if !%{with bootstrap}
 BuildRequires:	texinfo
 %endif
