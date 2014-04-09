@@ -6,7 +6,6 @@
 %define rlmajor	18
 %define rlapi	18
 %define rllibname	%mklibname %{name}readline %{rlapi} %{rlmajor}
-%bcond_without	bootstrap
 
 Summary:	GNU implementation of Scheme for application extensibility
 Name:		guile
@@ -24,9 +23,7 @@ Patch4:		guile-2.0.3-mktemp.patch
 
 BuildRequires:	chrpath
 BuildRequires:	libunistring-devel
-%if %{without bootstrap}
 BuildRequires:	texinfo
-%endif
 # for srfi-19.test
 BuildRequires:	timezone
 BuildRequires:	gettext-devel
