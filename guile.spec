@@ -24,7 +24,7 @@ Patch4:		guile-2.0.3-mktemp.patch
 
 BuildRequires:	chrpath
 BuildRequires:	libunistring-devel
-%if !%{with bootstrap}
+%if %{without bootstrap}
 BuildRequires:	texinfo
 %endif
 # for srfi-19.test
