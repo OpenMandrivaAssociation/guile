@@ -1,3 +1,6 @@
-sources:
+removed_sources:
   guile-2.0.7.tar.xz: cd6b061e76e36c6e75083168febab4807f1eadab
-  guile-2.0.7.tar.xz.sig: 64ca9350b5bda914b28cbf765817f123590a54a3
+  guile-2.0.9.tar.xz: a2275c23c4a03e8dbd5e500c47af694e14d2365b
+sources:
+  guile-2.0.11.tar.xz: ae86544b39048a160f4db1c0653a79b40b6c1ee6
+  guile-2.0.11.tar.xz.sig: 233c61fefde9a3a4f85a4014ad1efbff9b0b37cf
