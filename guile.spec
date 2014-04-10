@@ -119,8 +119,7 @@ touch %{buildroot}%{_datadir}/%{name}/%{api}/slib
 mkdir -p %{buildroot}%{_datadir}/guile/site
 
 mkdir -p %{buildroot}%{_datadir/gdb/auto-load%{_libdir}
-mv -f %{buildroot}%{_libdir}/libguile-*gdb.scm            \
-        %{buildroot}%{_datadir}/gdb/auto-load%{_libdir}
+mv -f %{buildroot}%{_libdir}/libguile-*gdb.scm %{buildroot}%{_datadir}/gdb/auto-load%{_libdir}
 
 %check
 # not working
