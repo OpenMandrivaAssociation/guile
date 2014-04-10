@@ -115,11 +115,11 @@ chrpath -d %{buildroot}%{_bindir}/%{name}
 touch %{buildroot}%{_datadir}/%{name}/%{api}/slibcat
 touch %{buildroot}%{_datadir}/%{name}/%{api}/slib
 
+mkdir -p %{buildroot}/%{_datadir}/gdb/auto-load%{_libdir}
+mv -f %{buildroot}%{_libdir}/libguile-*gdb.scm %{buildroot}%{_datadir}/gdb/auto-load%{_libdir}
+
 #slib needs this
 mkdir -p %{buildroot}%{_datadir}/guile/site
-
-mkdir -p %{buildroot}%{_datadir/gdb/auto-load%{_libdir}
-mv -f %{buildroot}%{_libdir}/libguile-*gdb.scm %{buildroot}%{_datadir}/gdb/auto-load%{_libdir}
 
 %check
 # not working
@@ -193,3 +193,4 @@ fi
 %{_datadir}/%{name}/%{api}/web/*
 %ghost %{_datadir}/%{name}/%{api}/slibcat
 %ghost %{_datadir}/%{name}/%{api}/slib
+
