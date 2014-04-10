@@ -10,7 +10,7 @@
 Summary:	GNU implementation of Scheme for application extensibility
 Name:		guile
 Version:	2.0.11
-Release:	1
+Release:	2
 License:	LGPLv2+
 Group:		Development/Other
 Url:		http://www.gnu.org/software/guile/guile.html
@@ -115,6 +115,10 @@ touch %{buildroot}%{_datadir}/%{name}/%{api}/slib
 #slib needs this
 mkdir -p %{buildroot}%{_datadir}/guile/site
 
+mkdir -p %{buildroot}%{_datadir/gdb/auto-load%{_libdir}
+mv -f %{buildroot}%{_libdir}/libguile-*gdb.scm            \
+        %{buildroot}%{_datadir}/gdb/auto-load%{_libdir}
+
 %check
 # not working
 #make check
@@ -169,6 +173,7 @@ fi
 %{_libdir}/lib%{name}-%{api}.so
 %{_libdir}/lib%{name}readline-v-%{rlapi}.so
 %{_libdir}/pkgconfig/%{name}*.pc
+%{_datadir}/gdb/auto-load%{_libdir}/libguile*.scm
 
 %files runtime
 %{_libdir}/%{name}/%{api}/*
