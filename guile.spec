@@ -1,16 +1,16 @@
-%define major	22
-%define	api	2.0
-%define libname	%mklibname %{name} %{api} %{major}
-%define devname	%mklibname %{name} -d
+%define major 22
+%define api 2.0
+%define libname %mklibname %{name} %{api} %{major}
+%define devname %mklibname %{name} -d
 
-%define rlmajor	18
-%define rlapi	18
-%define rllibname	%mklibname %{name}readline %{rlapi} %{rlmajor}
+%define rlmajor 18
+%define rlapi 18
+%define rllibname %mklibname %{name}readline %{rlapi} %{rlmajor}
 
 Summary:	GNU implementation of Scheme for application extensibility
 Name:		guile
 Version:	2.0.11
-Release:	3
+Release:	4
 License:	LGPLv2+
 Group:		Development/Other
 Url:		http://www.gnu.org/software/guile/guile.html
@@ -30,6 +30,8 @@ BuildRequires:	gettext-devel
 BuildRequires:	gmp-devel
 BuildRequires:	libtool-devel
 BuildRequires:	readline-devel
+BuildRequires:	pkgconfig(libffi)
+BuildRequires:	pkgconfig(ncurses)
 BuildRequires:	pkgconfig(ncursesw)
 BuildRequires:	pkgconfig(bdw-gc)
 
@@ -43,43 +45,122 @@ Install the guile package if you'd like to add extensibility to
 programs that you are developing. You'll also need to install the
 guile-devel package.
 
-%package -n	%{libname}
+%files
+%doc AUTHORS ChangeLog GUILE-VERSION LICENSE README THANKS
+%{_bindir}/%{name}
+%{_bindir}/%{name}-tools
+%{_bindir}/guild
+%{_libdir}/%{name}
+%exclude %{_libdir}/%{name}/%{api}
+%{_datadir}/%{name}
+%exclude %{_datadir}/%{name}/%{api}
+%{_mandir}/man1/guile.1.*
+%{_infodir}/*
+
+%triggerin -- slib
+ln -sfT ../../slib %{_datadir}/guile/%{api}/slib
+
+rm -f %{_datadir}/guile/%{mver}/slibcat
+export SCHEME_LIBRARY_PATH=%{_datadir}/slib/
+
+# Build SLIB catalog
+for pre in \
+    "(use-modules (ice-9 slib))" \
+    "(load \"%{_datadir}/slib/guile.init\")"
+do
+    %{_bindir}/guile -c "$pre
+        (set! implementation-vicinity (lambda () \"%{_datadir}/guile/%{api}/\"))
+        (require 'new-catalog)" &> /dev/null && break
+    rm -f %{_datadir}/guile/%{api}/slibcat
+done
+:
+
+%triggerun -- slib
+if [ "$1" = 0 -o "$2" = 0 ]; then
+    rm -f %{_datadir}/guile/%{api}/slib{,cat}
+fi
+
+#----------------------------------------------------------------------------
+
+%package -n %{libname}
 Summary:	Libraries for Guile %{version}
 Group:		System/Libraries
-Requires:	%{name}-runtime = %{version}-%{release}
+Requires:	%{name}-runtime = %{EVRD}
 
-%description -n	%{libname}
+%description -n %{libname}
 This package contains Guile shared object libraries.
 
-%package -n	%{rllibname}
+%files -n %{libname}
+%{_libdir}/lib%{name}-%{api}.so.%{major}*
+
+#----------------------------------------------------------------------------
+
+%package -n %{rllibname}
 Summary:	Libraries for Guile %{version}
 Group:		System/Libraries
 
-%description -n	%{rllibname}
+%description -n %{rllibname}
 This package contains Guile shared object libraries.
 
-%package -n	%{devname}
+%files -n %{rllibname}
+%{_libdir}/lib%{name}readline-v-%{rlapi}.so.%{rlmajor}*
+
+#----------------------------------------------------------------------------
+
+%package -n %{devname}
 Summary:	Development headers and static library for libguile
 Group:		Development/C
-Requires:	%{name} >= %{version}-%{release}
-Requires:	%{libname} = %{version}-%{release}
-Requires:	%{rllibname} = %{version}-%{release}
-Provides:	%{name}-devel = %{version}-%{release}
+Requires:	%{name} >= %{EVRD}
+Requires:	%{libname} = %{EVRD}
+Requires:	%{rllibname} = %{EVRD}
+Provides:	%{name}-devel = %{EVRD}
 
-%description -n	%{devname}
+%description -n %{devname}
 This package contains the development headers and the static library
 for libguile. C headers, aclocal macros, the `guile1.4-snarf' and
 `guile-config' utilities, and static `libguile' library for Guile, the
 GNU Ubiquitous Intelligent Language for Extension
 
-%package	runtime
-Summary:        Guile runtime library
-Group:          System/Libraries
+%files -n %{devname}
+%doc HACKING NEWS libguile/ChangeLog*
+%{_bindir}/%{name}-config
+%{_bindir}/%{name}-snarf
+%{_datadir}/aclocal/*
+%{_includedir}/%{name}
+%{_libdir}/lib%{name}-%{api}.so
+%{_libdir}/lib%{name}readline-v-%{rlapi}.so
+%{_libdir}/pkgconfig/%{name}*.pc
+%{_datadir}/gdb/auto-load%{_libdir}/libguile*.scm
+
+#----------------------------------------------------------------------------
+
+%package runtime
+Summary:	Guile runtime library
+Group:		System/Libraries
 Conflicts:	%{name} < 2.0.5-1
 
-%description	runtime
+%description runtime
 This package contains Scheme runtime for GUILE, including ice-9
 Scheme module.
+
+%files runtime
+%{_libdir}/%{name}/%{api}/*
+%{_datadir}/%{name}/%{api}/*.scm
+%{_datadir}/%{name}/%{api}/*.txt
+%{_datadir}/%{name}/%{api}/ice-9/*
+%{_datadir}/%{name}/%{api}/language/*
+%{_datadir}/%{name}/%{api}/oop/*
+%{_datadir}/%{name}/%{api}/rnrs/*
+%{_datadir}/%{name}/%{api}/scripts/*
+%{_datadir}/%{name}/%{api}/srfi/*
+%{_datadir}/%{name}/%{api}/sxml/*
+%{_datadir}/%{name}/%{api}/system/*
+%{_datadir}/%{name}/%{api}/texinfo/*
+%{_datadir}/%{name}/%{api}/web/*
+%ghost %{_datadir}/%{name}/%{api}/slibcat
+%ghost %{_datadir}/%{name}/%{api}/slib
+
+#----------------------------------------------------------------------------
 
 %prep
 %setup -q
@@ -117,77 +198,4 @@ mv -f %{buildroot}%{_libdir}/libguile-*gdb.scm %{buildroot}%{_datadir}/gdb/auto-
 
 #slib needs this
 mkdir -p %{buildroot}%{_datadir}/guile/site
-
-%check
-# not working
-#make check
-
-%triggerin -- slib
-ln -sfT ../../slib %{_datadir}/guile/%{api}/slib
-
-rm -f %{_datadir}/guile/%{mver}/slibcat
-export SCHEME_LIBRARY_PATH=%{_datadir}/slib/
-
-# Build SLIB catalog
-for pre in \
-    "(use-modules (ice-9 slib))" \
-    "(load \"%{_datadir}/slib/guile.init\")"
-do
-    %{_bindir}/guile -c "$pre
-        (set! implementation-vicinity (lambda () \"%{_datadir}/guile/%{api}/\"))
-        (require 'new-catalog)" &> /dev/null && break
-    rm -f %{_datadir}/guile/%{api}/slibcat
-done
-:
-
-%triggerun -- slib
-if [ "$1" = 0 -o "$2" = 0 ]; then
-    rm -f %{_datadir}/guile/%{api}/slib{,cat}
-fi
-
-%files
-%doc AUTHORS ChangeLog GUILE-VERSION LICENSE README THANKS
-%{_bindir}/%{name}
-%{_bindir}/%{name}-tools
-%{_bindir}/guild
-%{_libdir}/%{name}
-%exclude %{_libdir}/%{name}/%{api}
-%{_datadir}/%{name}
-%exclude %{_datadir}/%{name}/%{api}
-%{_mandir}/man1/guile.1.*
-%{_infodir}/*
-
-%files -n %{libname}
-%{_libdir}/lib%{name}-%{api}.so.%{major}*
-
-%files -n %{rllibname}
-%{_libdir}/lib%{name}readline-v-%{rlapi}.so.%{rlmajor}*
-
-%files -n %{devname}
-%doc HACKING NEWS libguile/ChangeLog*
-%{_bindir}/%{name}-config
-%{_bindir}/%{name}-snarf
-%{_datadir}/aclocal/*
-%{_includedir}/%{name}
-%{_libdir}/lib%{name}-%{api}.so
-%{_libdir}/lib%{name}readline-v-%{rlapi}.so
-%{_libdir}/pkgconfig/%{name}*.pc
-%{_datadir}/gdb/auto-load%{_libdir}/libguile*.scm
-
-%files runtime
-%{_libdir}/%{name}/%{api}/*
-%{_datadir}/%{name}/%{api}/*.scm
-%{_datadir}/%{name}/%{api}/*.txt
-%{_datadir}/%{name}/%{api}/ice-9/*
-%{_datadir}/%{name}/%{api}/language/*
-%{_datadir}/%{name}/%{api}/oop/*
-%{_datadir}/%{name}/%{api}/rnrs/*
-%{_datadir}/%{name}/%{api}/scripts/*
-%{_datadir}/%{name}/%{api}/srfi/*
-%{_datadir}/%{name}/%{api}/sxml/*
-%{_datadir}/%{name}/%{api}/system/*
-%{_datadir}/%{name}/%{api}/texinfo/*
-%{_datadir}/%{name}/%{api}/web/*
-%ghost %{_datadir}/%{name}/%{api}/slibcat
-%ghost %{_datadir}/%{name}/%{api}/slib
 
