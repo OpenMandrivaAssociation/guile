@@ -10,7 +10,7 @@
 Summary:	GNU implementation of Scheme for application extensibility
 Name:		guile
 Version:	2.0.11
-Release:	5
+Release:	6
 License:	LGPLv2+
 Group:		Development/Other
 Url:		http://www.gnu.org/software/guile/guile.html
@@ -20,6 +20,7 @@ Patch0:		guile-2.0.7-64bit-fixes.patch
 Patch1:		guile-2.0.7-drop-ldflags-from-pkgconfig.patch
 Patch3:		guile-2.0.7-turn-off-gc-test.patch
 Patch4:		guile-2.0.3-mktemp.patch
+Patch5:		workaround-ice-ssa-corruption.patch
 
 BuildRequires:	chrpath
 BuildRequires:	libunistring-devel
@@ -174,10 +175,12 @@ for i in libguile/ChangeLog*; do
 done
 
 %build
-%configure2_5x \
+# http://llvm.org/bugs/show_bug.cgi?id=14406
+export CC=gcc
+export CXX=g++
+%configure \
 	--disable-error-on-warning \
 	--disable-rpath \
-	--disable-static \
 	--with-threads \
 	--with-pic
 
