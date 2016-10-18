@@ -9,13 +9,12 @@
 
 Summary:	GNU implementation of Scheme for application extensibility
 Name:		guile
-Version:	2.0.11
-Release:	9
+Version:	2.0.13
+Release:	1
 License:	LGPLv2+
 Group:		Development/Other
 Url:		http://www.gnu.org/software/guile/guile.html
 Source0:	ftp://ftp.gnu.org/pub/gnu/guile/%{name}-%{version}.tar.xz
-Source1:	ftp://ftp.gnu.org/pub/gnu/guile/%{name}-%{version}.tar.xz.sig
 Patch0:		guile-2.0.7-64bit-fixes.patch
 Patch1:		guile-2.0.7-drop-ldflags-from-pkgconfig.patch
 Patch3:		guile-2.0.7-turn-off-gc-test.patch
@@ -47,7 +46,7 @@ programs that you are developing. You'll also need to install the
 guile-devel package.
 
 %files
-%doc AUTHORS ChangeLog GUILE-VERSION LICENSE README THANKS
+%doc AUTHORS GUILE-VERSION README THANKS
 %{_bindir}/%{name}
 %{_bindir}/%{name}-tools
 %{_bindir}/guild
@@ -123,7 +122,6 @@ for libguile. C headers, aclocal macros, the `guile1.4-snarf' and
 GNU Ubiquitous Intelligent Language for Extension
 
 %files -n %{devname}
-%doc HACKING NEWS libguile/ChangeLog*
 %{_bindir}/%{name}-config
 %{_bindir}/%{name}-snarf
 %{_datadir}/aclocal/*
@@ -170,8 +168,8 @@ autoreconf -vfi
 
 #fix encodings
 for i in libguile/ChangeLog*; do
-	mv $i $i.old
-	iconv -f ISO8859-1 -t UTF-8 $i.old -o $i
+    mv $i $i.old
+    iconv -f ISO8859-1 -t UTF-8 $i.old -o $i
 done
 
 %build
@@ -179,10 +177,10 @@ done
 export CC=gcc
 export CXX=g++
 %configure \
-	--disable-error-on-warning \
-	--disable-rpath \
-	--with-threads \
-	--with-pic
+    --disable-error-on-warning \
+    --disable-rpath \
+    --with-threads \
+    --with-pic
 
 %make
 
