@@ -19,7 +19,7 @@ Source0:	ftp://ftp.gnu.org/pub/gnu/guile/%{name}-%{version}.tar.xz
 Patch1:		guile-2.0.7-drop-ldflags-from-pkgconfig.patch
 Patch3:		guile-2.0.7-turn-off-gc-test.patch
 Patch4:		guile-2.0.3-mktemp.patch
-Patch5:		workaround-ice-ssa-corruption.patch
+#Patch5:		workaround-ice-ssa-corruption.patch
 
 BuildRequires:	chrpath
 BuildRequires:	libunistring-devel
