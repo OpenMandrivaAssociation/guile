@@ -1,5 +1,5 @@
 %define major 22
-%define api 2.0
+%define api 2.2
 %define libname %mklibname %{name} %{api} %{major}
 %define devname %mklibname %{name} -d
 
