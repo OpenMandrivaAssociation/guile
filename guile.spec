@@ -3,10 +3,6 @@
 %define libname %mklibname %{name} %{api} %{major}
 %define devname %mklibname %{name} -d
 
-%define rlmajor 18
-%define rlapi 18
-%define rllibname %mklibname %{name}readline %{rlapi} %{rlmajor}
-
 Summary:	GNU implementation of Scheme for application extensibility
 Name:		guile
 Version:	2.2.3
@@ -86,6 +82,7 @@ fi
 Summary:	Libraries for Guile %{version}
 Group:		System/Libraries
 Requires:	%{name}-runtime = %{EVRD}
+Obsoletes:	%{mklibname guilereadline 18 18) < 2.2.3
 
 %description -n %{libname}
 This package contains Guile shared object libraries.
@@ -95,24 +92,11 @@ This package contains Guile shared object libraries.
 
 #----------------------------------------------------------------------------
 
-%package -n %{rllibname}
-Summary:	Libraries for Guile %{version}
-Group:		System/Libraries
-
-%description -n %{rllibname}
-This package contains Guile shared object libraries.
-
-%files -n %{rllibname}
-%{_libdir}/lib%{name}readline-v-%{rlapi}.so.%{rlmajor}*
-
-#----------------------------------------------------------------------------
-
 %package -n %{devname}
 Summary:	Development headers and static library for libguile
 Group:		Development/C
 Requires:	%{name} >= %{EVRD}
 Requires:	%{libname} = %{EVRD}
-Requires:	%{rllibname} = %{EVRD}
 Provides:	%{name}-devel = %{EVRD}
 
 %description -n %{devname}
@@ -127,7 +111,6 @@ GNU Ubiquitous Intelligent Language for Extension
 %{_datadir}/aclocal/*
 %{_includedir}/%{name}
 %{_libdir}/lib%{name}-%{api}.so
-%{_libdir}/lib%{name}readline-v-%{rlapi}.so
 %{_libdir}/pkgconfig/%{name}*.pc
 %{_datadir}/gdb/auto-load%{_libdir}/libguile*.scm
 
