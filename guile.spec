@@ -1,4 +1,4 @@
-%define major 22
+%define major 1
 %define api 2.2
 %define libname %mklibname %{name} %{api} %{major}
 %define devname %mklibname %{name} -d
@@ -199,4 +199,3 @@ mv -f %{buildroot}%{_libdir}/libguile-*gdb.scm %{buildroot}%{_datadir}/gdb/auto-
 
 #slib needs this
 mkdir -p %{buildroot}%{_datadir}/guile/site
-
