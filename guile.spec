@@ -6,7 +6,7 @@
 Summary:	GNU implementation of Scheme for application extensibility
 Name:		guile
 Version:	2.2.3
-Release:	1
+Release:	2
 License:	LGPLv2+
 Group:		Development/Other
 Url:		http://www.gnu.org/software/guile/guile.html
@@ -98,6 +98,8 @@ Group:		Development/C
 Requires:	%{name} >= %{EVRD}
 Requires:	%{libname} = %{EVRD}
 Provides:	%{name}-devel = %{EVRD}
+# For -lgc, requested by pkg-config --libs guile-2.2
+Requires:	pkgconfig(bdw-gc)
 
 %description -n %{devname}
 This package contains the development headers and the static library
