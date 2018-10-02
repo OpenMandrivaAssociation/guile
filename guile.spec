@@ -100,6 +100,7 @@ Requires:	%{libname} = %{EVRD}
 Provides:	%{name}-devel = %{EVRD}
 # For -lgc, requested by pkg-config --libs guile-2.2
 Requires:	pkgconfig(bdw-gc)
+Requires:	gmp-devel
 
 %description -n %{devname}
 This package contains the development headers and the static library
