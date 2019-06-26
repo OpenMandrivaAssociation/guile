@@ -16,7 +16,7 @@ Patch1:		guile-2.0.7-drop-ldflags-from-pkgconfig.patch
 Patch3:		guile-2.0.7-turn-off-gc-test.patch
 Patch4:		guile-2.0.3-mktemp.patch
 #Patch5:		workaround-ice-ssa-corruption.patch
-
+BuildRequires:	hostname
 BuildRequires:	chrpath
 BuildRequires:	libunistring-devel
 BuildRequires:	texinfo
@@ -148,8 +148,8 @@ Scheme module.
 #----------------------------------------------------------------------------
 
 %prep
-%setup -q
-%apply_patches
+%autosetup -p1
+
 autoreconf -vfi
 
 #fix encodings
@@ -168,10 +168,10 @@ export CXX=g++
     --with-threads \
     --with-pic
 
-%make
+%make_build
 
 %install
-%makeinstall_std
+%make_install
 
 #remove rpath
 chrpath -d %{buildroot}%{_bindir}/%{name}
