@@ -1,4 +1,3 @@
-%define _disable_lto 1
 %define major 1
 %define api 2.2
 %define libname %mklibname %{name} %{api} %{major}
@@ -30,6 +29,7 @@ BuildRequires:	pkgconfig(libffi)
 BuildRequires:	pkgconfig(ncurses)
 BuildRequires:	pkgconfig(ncursesw)
 BuildRequires:	pkgconfig(bdw-gc)
+BuildRequires:	gc-static-devel
 
 %description
 GUILE (GNU's Ubiquitous Intelligent Language for Extension) is a
