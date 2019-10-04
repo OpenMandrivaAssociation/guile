@@ -150,6 +150,9 @@ Scheme module.
 %prep
 %autosetup -p1
 
+# remove broken prebuilt objects
+rm -r prebuilt/32-bit-big-endian
+
 autoreconf -vfi
 
 #fix encodings
@@ -159,16 +162,13 @@ for i in libguile/ChangeLog*; do
 done
 
 %build
-# http://llvm.org/bugs/show_bug.cgi?id=14406
-export CC=gcc
-export CXX=g++
 %configure \
     --disable-error-on-warning \
     --disable-rpath \
     --with-threads \
     --with-pic
 
-%make_build
+%make_build -j1
 
 %install
 %make_install
