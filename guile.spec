@@ -17,14 +17,14 @@ Patch4:		guile-2.0.3-mktemp.patch
 #Patch5:		workaround-ice-ssa-corruption.patch
 BuildRequires:	hostname
 BuildRequires:	chrpath
-BuildRequires:	libunistring-devel
+BuildRequires:	pkgconfig(libunistring)
 BuildRequires:	texinfo
 # for srfi-19.test
 BuildRequires:	timezone
 BuildRequires:	gettext-devel
 BuildRequires:	gmp-devel
 BuildRequires:	libtool-devel
-BuildRequires:	readline-devel
+BuildRequires:	pkgconfig(readline)
 BuildRequires:	pkgconfig(libffi)
 BuildRequires:	pkgconfig(ncurses)
 BuildRequires:	pkgconfig(ncursesw)
@@ -165,7 +165,8 @@ done
     --disable-error-on-warning \
     --disable-rpath \
     --with-threads \
-    --with-pic
+    --with-pic \
+    --with-bdw-gc="%{_libdir}/pkgconfig/bdw-gc.pc"
 
 %make_build -j1
 
