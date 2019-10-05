@@ -168,6 +168,7 @@ done
     --with-pic \
     --with-bdw-gc="%{_libdir}/pkgconfig/bdw-gc.pc"
 
+cat config.log
 %make_build -j1
 
 %install
