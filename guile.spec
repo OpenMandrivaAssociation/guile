@@ -11,6 +11,7 @@ License:	LGPLv2+
 Group:		Development/Other
 Url:		http://www.gnu.org/software/guile/guile.html
 Source0:	ftp://ftp.gnu.org/pub/gnu/guile/%{name}-%{version}.tar.xz
+Patch0:		guile-2.2.6-check-for-__builtin_mul_overflow_p.patch
 Patch1:		guile-2.0.7-drop-ldflags-from-pkgconfig.patch
 Patch3:		guile-2.0.7-turn-off-gc-test.patch
 Patch4:		guile-2.0.3-mktemp.patch
@@ -151,8 +152,6 @@ Scheme module.
 
 # remove broken prebuilt objects
 rm -r prebuilt/32-bit-big-endian
-
-#autoreconf -vfi
 
 #fix encodings
 for i in libguile/ChangeLog*; do
