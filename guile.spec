@@ -30,9 +30,7 @@ BuildRequires:	pkgconfig(readline)
 BuildRequires:	pkgconfig(libffi)
 BuildRequires:	pkgconfig(ncurses)
 BuildRequires:	pkgconfig(ncursesw)
-%ifnarch %{riscv}
 BuildRequires:	pkgconfig(bdw-gc)
-%endif
 
 %description
 GUILE (GNU's Ubiquitous Intelligent Language for Extension) is a
@@ -101,8 +99,6 @@ Group:		Development/C
 Requires:	%{name} >= %{EVRD}
 Requires:	%{libname} = %{EVRD}
 Provides:	%{name}-devel = %{EVRD}
-# For -lgc, requested by pkg-config --libs guile-2.2
-Requires:	pkgconfig(bdw-gc)
 Requires:	gmp-devel
 
 %description -n %{devname}
