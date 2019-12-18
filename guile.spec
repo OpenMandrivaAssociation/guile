@@ -6,7 +6,7 @@
 Summary:	GNU implementation of Scheme for application extensibility
 Name:		guile
 Version:	2.2.6
-Release:	3
+Release:	4
 License:	LGPLv2+
 Group:		Development/Other
 Url:		http://www.gnu.org/software/guile/guile.html
@@ -163,13 +163,8 @@ done
     --disable-error-on-warning \
     --disable-rpath \
     --with-pic \
-%ifnarch %{riscv}
     --with-threads \
     --with-bdw-gc="%{_libdir}/pkgconfig/bdw-gc.pc"
-%else
-    --without-threads \
-    --without-bdw-gc
-%endif
 
 %make_build -j1
 
