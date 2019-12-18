@@ -30,7 +30,9 @@ BuildRequires:	pkgconfig(readline)
 BuildRequires:	pkgconfig(libffi)
 BuildRequires:	pkgconfig(ncurses)
 BuildRequires:	pkgconfig(ncursesw)
+%ifnarch %{riscv}
 BuildRequires:	pkgconfig(bdw-gc)
+%endif
 
 %description
 GUILE (GNU's Ubiquitous Intelligent Language for Extension) is a
@@ -164,9 +166,14 @@ done
 %configure \
     --disable-error-on-warning \
     --disable-rpath \
-    --with-threads \
     --with-pic \
+%ifnarch %{riscv}
+    --with-threads \
     --with-bdw-gc="%{_libdir}/pkgconfig/bdw-gc.pc"
+%else
+    --without-threads \
+    --without-bdw-gc
+%endif
 
 %make_build -j1
 
