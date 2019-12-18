@@ -6,7 +6,7 @@
 Summary:	GNU implementation of Scheme for application extensibility
 Name:		guile
 Version:	2.2.6
-Release:	2
+Release:	3
 License:	LGPLv2+
 Group:		Development/Other
 Url:		http://www.gnu.org/software/guile/guile.html
@@ -16,6 +16,7 @@ Patch1:		guile-2.0.7-drop-ldflags-from-pkgconfig.patch
 Patch3:		guile-2.0.7-turn-off-gc-test.patch
 Patch4:		guile-2.0.3-mktemp.patch
 #Patch5:		workaround-ice-ssa-corruption.patch
+Patch6:		guile-2.2-gc_pkgconfig_private.patch
 BuildRequires:	hostname
 BuildRequires:	chrpath
 BuildRequires:	pkgconfig(libunistring)
