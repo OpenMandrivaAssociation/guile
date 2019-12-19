@@ -6,18 +6,20 @@
 Summary:	GNU implementation of Scheme for application extensibility
 Name:		guile
 Version:	2.2.6
-Release:	4
+Release:	5
 License:	LGPLv2+
 Group:		Development/Other
 Url:		http://www.gnu.org/software/guile/guile.html
 Source0:	ftp://ftp.gnu.org/pub/gnu/guile/%{name}-%{version}.tar.xz
 Patch0:		guile-2.2.6-check-for-__builtin_mul_overflow_p.patch
-Patch1:		guile-2.0.7-drop-ldflags-from-pkgconfig.patch
-Patch3:		guile-2.0.7-turn-off-gc-test.patch
-Patch4:		guile-2.0.3-mktemp.patch
-#Patch5:		workaround-ice-ssa-corruption.patch
-Patch6:		guile-2.2-gc_pkgconfig_private.patch
-Patch7:		disable-test-out-of-memory.patch
+Patch1:		guile-2.0.7-turn-off-gc-test.patch
+Patch2:		guile-2.0.3-mktemp.patch
+Patch3:		guile-2.2-gc_pkgconfig_private.patch
+Patch4:		disable-test-out-of-memory.patch
+# upstream patches
+Patch100:	0001-build-Do-not-record-LDFLAGS-in-.pc-file.patch
+Patch101:	0002-ports-scm_port_poll-honors-w-flags.patch
+Patch102:	0003-Fix-non-deterministic-crash-in-finalization_thread_p.patch
 BuildRequires:	hostname
 BuildRequires:	chrpath
 BuildRequires:	pkgconfig(libunistring)
@@ -160,9 +162,14 @@ for i in libguile/ChangeLog*; do
 done
 
 %build
+%config_update
 %configure \
     --disable-error-on-warning \
     --disable-rpath \
+%ifarch %{riscv}
+    --enable-debug-malloc \
+    --enable-guile-debug \
+%endif
     --with-pic \
     --with-threads \
     --with-bdw-gc="%{_libdir}/pkgconfig/bdw-gc.pc"
