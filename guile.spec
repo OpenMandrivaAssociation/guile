@@ -17,6 +17,7 @@ Patch3:		guile-2.0.7-turn-off-gc-test.patch
 Patch4:		guile-2.0.3-mktemp.patch
 #Patch5:		workaround-ice-ssa-corruption.patch
 Patch6:		guile-2.2-gc_pkgconfig_private.patch
+Patch7:		disable-test-out-of-memory.patch
 BuildRequires:	hostname
 BuildRequires:	chrpath
 BuildRequires:	pkgconfig(libunistring)
