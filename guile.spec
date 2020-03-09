@@ -1,11 +1,11 @@
 %define major 1
-%define api 2.2
+%define api %(echo %{version} | cut -d. -f1-2)
 %define libname %mklibname %{name} %{api} %{major}
 %define devname %mklibname %{name} -d
 
 Summary:	GNU implementation of Scheme for application extensibility
 Name:		guile
-Version:	3.0.0
+Version:	3.0.1
 Release:	1
 License:	LGPLv2+
 Group:		Development/Other
@@ -14,12 +14,8 @@ Source0:	ftp://ftp.gnu.org/pub/gnu/guile/%{name}-%{version}.tar.xz
 Patch0:		guile-2.2.6-check-for-__builtin_mul_overflow_p.patch
 Patch1:		guile-2.0.7-turn-off-gc-test.patch
 Patch2:		guile-2.0.3-mktemp.patch
-Patch3:		guile-2.2-gc_pkgconfig_private.patch
+Patch3:		guile-3.0-gc_pkgconfig_private.patch
 Patch4:		disable-test-out-of-memory.patch
-# upstream patches
-Patch100:	0001-build-Do-not-record-LDFLAGS-in-.pc-file.patch
-Patch101:	0002-ports-scm_port_poll-honors-w-flags.patch
-Patch102:	0003-Fix-non-deterministic-crash-in-finalization_thread_p.patch
 BuildRequires:	hostname
 BuildRequires:	chrpath
 BuildRequires:	pkgconfig(libunistring)
