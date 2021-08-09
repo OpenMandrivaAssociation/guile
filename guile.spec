@@ -5,13 +5,12 @@
 
 Summary:	GNU implementation of Scheme for application extensibility
 Name:		guile
-Version:	3.0.5
+Version:	3.0.7
 Release:	1
 License:	LGPLv2+
 Group:		Development/Other
 Url:		http://www.gnu.org/software/guile/guile.html
 Source0:	ftp://ftp.gnu.org/pub/gnu/guile/%{name}-%{version}.tar.xz
-Patch0:		guile-2.2.6-check-for-__builtin_mul_overflow_p.patch
 Patch1:		guile-2.0.7-turn-off-gc-test.patch
 Patch2:		guile-2.0.3-mktemp.patch
 Patch3:		guile-3.0-gc_pkgconfig_private.patch

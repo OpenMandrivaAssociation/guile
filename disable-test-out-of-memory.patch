@@ -1,7 +1,7 @@
-diff -Naur guile-2.2.6/test-suite/standalone/Makefile.am guile-2.2.6.tpg/test-suite/standalone/Makefile.am
---- guile-2.2.6/test-suite/standalone/Makefile.am	2016-08-01 11:32:31.000000000 +0000
-+++ guile-2.2.6.tpg/test-suite/standalone/Makefile.am	2019-12-19 11:24:29.604955228 +0000
-@@ -295,7 +295,4 @@
+diff -up guile-3.0.7/test-suite/standalone/Makefile.am.4~ guile-3.0.7/test-suite/standalone/Makefile.am
+--- guile-3.0.7/test-suite/standalone/Makefile.am.4~	2021-05-10 10:07:12.000000000 +0200
++++ guile-3.0.7/test-suite/standalone/Makefile.am	2021-08-09 18:48:13.980515045 +0200
+@@ -298,7 +298,4 @@ TESTS += test-smob-mark-race
  check_SCRIPTS += test-stack-overflow
  TESTS += test-stack-overflow
  
@@ -9,10 +9,10 @@ diff -Naur guile-2.2.6/test-suite/standalone/Makefile.am guile-2.2.6.tpg/test-su
 -TESTS += test-out-of-memory
 -
  EXTRA_DIST += ${check_SCRIPTS}
-diff -Naur guile-2.2.6/test-suite/standalone/Makefile.in guile-2.2.6.tpg/test-suite/standalone/Makefile.in
---- guile-2.2.6/test-suite/standalone/Makefile.in	2019-06-30 20:06:44.000000000 +0000
-+++ guile-2.2.6.tpg/test-suite/standalone/Makefile.in	2019-12-19 11:25:08.088952548 +0000
-@@ -103,7 +103,7 @@
+diff -up guile-3.0.7/test-suite/standalone/Makefile.in.4~ guile-3.0.7/test-suite/standalone/Makefile.in
+--- guile-3.0.7/test-suite/standalone/Makefile.in.4~	2021-05-10 10:30:31.000000000 +0200
++++ guile-3.0.7/test-suite/standalone/Makefile.in	2021-08-09 18:49:14.053742788 +0200
+@@ -106,7 +106,7 @@ TESTS = test-system-cmds test-bad-identi
  	test-scm-c-bind-keyword-arguments$(EXEEXT) \
  	test-srfi-4$(EXEEXT) $(am__append_6) $(am__EXEEXT_1) \
  	test-smob-mark$(EXEEXT) test-smob-mark-race$(EXEEXT) \
@@ -21,13 +21,12 @@ diff -Naur guile-2.2.6/test-suite/standalone/Makefile.in guile-2.2.6.tpg/test-su
  check_PROGRAMS = test-num2integral$(EXEEXT) test-round$(EXEEXT) \
  	test-foreign-object-c$(EXEEXT) test-list$(EXEEXT) \
  	test-unwind$(EXEEXT) test-conversion$(EXEEXT) \
-@@ -1938,8 +1938,7 @@
- 	test-command-line-encoding test-command-line-encoding2 \
- 	test-language test-guild-compile $(am__append_3) \
- 	test-foreign-object-scm test-fast-slot-ref test-mb-regexp \
--	test-use-srfi $(am__append_5) test-stack-overflow \
--	test-out-of-memory
-+	test-use-srfi $(am__append_5) test-stack-overflow
+@@ -2147,7 +2147,7 @@ check_SCRIPTS = test-system-cmds test-ba
+ 	test-language test-guild-compile test-signal-fork \
+ 	$(am__append_3) test-foreign-object-scm test-fast-slot-ref \
+ 	test-mb-regexp test-use-srfi $(am__append_5) \
+-	test-stack-overflow test-out-of-memory
++	test-stack-overflow
  BUILT_SOURCES = $(am__append_2)
  EXTRA_DIST = test-import-order-a.scm test-import-order-b.scm \
  	test-import-order-c.scm test-import-order-d.scm \
