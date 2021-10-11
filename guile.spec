@@ -6,7 +6,7 @@
 Summary:	GNU implementation of Scheme for application extensibility
 Name:		guile
 Version:	3.0.7
-Release:	1
+Release:	2
 License:	LGPLv2+
 Group:		Development/Other
 Url:		http://www.gnu.org/software/guile/guile.html
@@ -15,6 +15,9 @@ Patch1:		guile-2.0.7-turn-off-gc-test.patch
 Patch2:		guile-2.0.3-mktemp.patch
 Patch3:		guile-3.0-gc_pkgconfig_private.patch
 Patch4:		disable-test-out-of-memory.patch
+Patch5:		gcc10-x86-disable-one-test.patch
+Patch6:		0007-Fix-non-revealed-port-is-closed-ports.test.patch
+Patch7:		gnulib-dynarray.patch
 BuildRequires:	hostname
 BuildRequires:	chrpath
 BuildRequires:	pkgconfig(libunistring)
