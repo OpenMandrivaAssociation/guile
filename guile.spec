@@ -18,6 +18,8 @@ Patch4:		disable-test-out-of-memory.patch
 Patch5:		gcc10-x86-disable-one-test.patch
 Patch6:		0007-Fix-non-revealed-port-is-closed-ports.test.patch
 Patch7:		gnulib-dynarray.patch
+Patch8:		guile-3.0.7-fix-build-with-clang.patch
+
 BuildRequires:	hostname
 BuildRequires:	chrpath
 BuildRequires:	pkgconfig(libunistring)
@@ -52,8 +54,8 @@ guile-devel package.
 %exclude %{_libdir}/%{name}/%{api}
 %{_datadir}/%{name}
 %exclude %{_datadir}/%{name}/%{api}
-%{_mandir}/man1/guile.1.*
-%{_infodir}/*
+%doc %{_mandir}/man1/guile.1.*
+%doc %{_infodir}/*
 
 %triggerin -- slib
 ln -sfT ../../slib %{_datadir}/guile/%{api}/slib
