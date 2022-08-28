@@ -5,8 +5,8 @@
 
 Summary:	GNU implementation of Scheme for application extensibility
 Name:		guile
-Version:	3.0.7
-Release:	2
+Version:	3.0.8
+Release:	1
 License:	LGPLv2+
 Group:		Development/Other
 Url:		http://www.gnu.org/software/guile/guile.html
@@ -17,13 +17,13 @@ Patch3:		guile-3.0-gc_pkgconfig_private.patch
 Patch4:		disable-test-out-of-memory.patch
 Patch5:		gcc10-x86-disable-one-test.patch
 Patch6:		0007-Fix-non-revealed-port-is-closed-ports.test.patch
-Patch7:		gnulib-dynarray.patch
-Patch8:		guile-3.0.7-fix-build-with-clang.patch
+Patch7:		gnulib-clang.patch
 
 BuildRequires:	hostname
 BuildRequires:	chrpath
 BuildRequires:	pkgconfig(libunistring)
 BuildRequires:	texinfo
+BuildRequires:	locales-extra-charsets
 # for srfi-19.test
 BuildRequires:	timezone
 BuildRequires:	gettext-devel
@@ -155,12 +155,6 @@ Scheme module.
 
 # remove broken prebuilt objects
 rm -r prebuilt/32-bit-big-endian
-
-#fix encodings
-for i in libguile/ChangeLog*; do
-    mv $i $i.old
-    iconv -f ISO8859-1 -t UTF-8 $i.old -o $i
-done
 
 %build
 %config_update
