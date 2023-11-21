@@ -1,22 +1,94 @@
-diff -up guile-3.0.8/config.h.in.omv~ guile-3.0.8/config.h.in
---- guile-3.0.8/config.h.in.omv~	2022-08-27 23:25:15.443730511 +0200
-+++ guile-3.0.8/config.h.in	2022-08-27 23:27:48.620909969 +0200
-@@ -2480,7 +2480,7 @@ License along with Guile.  If not, see
-    return pointers that can be freed via 'free'; it can be used
-    only after including stdlib.h.  These macros cannot be used on
-    inline functions.  */
+diff -up guile-3.0.9/config.h.in.omv~ guile-3.0.9/config.h.in
+--- guile-3.0.9/config.h.in.omv~	2023-11-21 22:49:24.071019921 +0100
++++ guile-3.0.9/config.h.in	2023-11-21 22:49:32.132102748 +0100
+@@ -2742,7 +2742,7 @@ License along with Guile.  If not, see
+    _GL_ATTRIBUTE_DEALLOC_FREE declares that the function returns pointers that
+    can be freed via 'free'; it can be used only after declaring 'free'.  */
+ /* Applies to: functions.  Cannot be used on inline functions.  */
 -#if _GL_GNUC_PREREQ (11, 0)
 +#if _GL_GNUC_PREREQ (11, 0) && !defined(__clang__)
  # define _GL_ATTRIBUTE_DEALLOC(f, i) __attribute__ ((__malloc__ (f, i)))
  #else
  # define _GL_ATTRIBUTE_DEALLOC(f, i)
-diff -up guile-3.0.8/m4/gnulib-common.m4.omv~ guile-3.0.8/m4/gnulib-common.m4
---- guile-3.0.8/m4/gnulib-common.m4.omv~	2022-08-27 23:25:35.193844071 +0200
-+++ guile-3.0.8/m4/gnulib-common.m4	2022-08-27 23:26:28.890702322 +0200
-@@ -154,7 +154,7 @@ AC_DEFUN([gl_COMMON_BODY], [
-    return pointers that can be freed via 'free'; it can be used
-    only after including stdlib.h.  These macros cannot be used on
-    inline functions.  */
+diff -up guile-3.0.9/lib/cdefs.h.omv~ guile-3.0.9/lib/cdefs.h
+--- guile-3.0.9/lib/cdefs.h.omv~	2023-11-21 22:48:58.025752298 +0100
++++ guile-3.0.9/lib/cdefs.h	2023-11-21 22:49:16.349940589 +0100
+@@ -685,7 +685,7 @@ _Static_assert (0, "IEEE 128-bits long d
+ #  define __attr_access_none(argno)
+ #endif
+ 
+-#if __GNUC_PREREQ (11, 0)
++#if __GNUC_PREREQ (11, 0) && !defined(__clang__)
+ /* Designates dealloc as a function to call to deallocate objects
+    allocated by the declared function.  */
+ # define __attr_dealloc(dealloc, argno) \
+diff -up guile-3.0.9/lib/dirent.in.h.omv~ guile-3.0.9/lib/dirent.in.h
+--- guile-3.0.9/lib/dirent.in.h.omv~	2023-11-21 22:48:29.598460163 +0100
++++ guile-3.0.9/lib/dirent.in.h	2023-11-21 22:48:37.605542452 +0100
+@@ -59,7 +59,7 @@ typedef struct gl_directory DIR;
+    that can be freed by passing them as the Ith argument to the
+    function F.  */
+ #ifndef _GL_ATTRIBUTE_DEALLOC
+-# if __GNUC__ >= 11
++# if __GNUC__ >= 11 && !defined(__clang__)
+ #  define _GL_ATTRIBUTE_DEALLOC(f, i) __attribute__ ((__malloc__ (f, i)))
+ # else
+ #  define _GL_ATTRIBUTE_DEALLOC(f, i)
+diff -up guile-3.0.9/lib/stdio.in.h.omv~ guile-3.0.9/lib/stdio.in.h
+--- guile-3.0.9/lib/stdio.in.h.omv~	2023-11-21 22:48:43.552603569 +0100
++++ guile-3.0.9/lib/stdio.in.h	2023-11-21 22:48:50.370673634 +0100
+@@ -95,7 +95,7 @@
+    that can be freed by passing them as the Ith argument to the
+    function F.  */
+ #ifndef _GL_ATTRIBUTE_DEALLOC
+-# if __GNUC__ >= 11
++# if __GNUC__ >= 11 && !defined(__clang__)
+ #  define _GL_ATTRIBUTE_DEALLOC(f, i) __attribute__ ((__malloc__ (f, i)))
+ # else
+ #  define _GL_ATTRIBUTE_DEALLOC(f, i)
+diff -up guile-3.0.9/lib/stdlib.in.h.omv~ guile-3.0.9/lib/stdlib.in.h
+--- guile-3.0.9/lib/stdlib.in.h.omv~	2023-11-21 22:48:15.764317986 +0100
++++ guile-3.0.9/lib/stdlib.in.h	2023-11-21 22:48:22.188384010 +0100
+@@ -103,7 +103,7 @@ struct random_data
+    that can be freed by passing them as the Ith argument to the
+    function F.  */
+ #ifndef _GL_ATTRIBUTE_DEALLOC
+-# if __GNUC__ >= 11
++# if __GNUC__ >= 11 && !defined(__clang__)
+ #  define _GL_ATTRIBUTE_DEALLOC(f, i) __attribute__ ((__malloc__ (f, i)))
+ # else
+ #  define _GL_ATTRIBUTE_DEALLOC(f, i)
+diff -up guile-3.0.9/lib/string.in.h.omv~ guile-3.0.9/lib/string.in.h
+--- guile-3.0.9/lib/string.in.h.omv~	2023-11-21 22:47:40.987960530 +0100
++++ guile-3.0.9/lib/string.in.h	2023-11-21 22:47:56.203116930 +0100
+@@ -72,7 +72,7 @@
+    that can be freed by passing them as the Ith argument to the
+    function F.  */
+ #ifndef _GL_ATTRIBUTE_DEALLOC
+-# if __GNUC__ >= 11
++# if __GNUC__ >= 11 && !defined(__clang__)
+ #  define _GL_ATTRIBUTE_DEALLOC(f, i) __attribute__ ((__malloc__ (f, i)))
+ # else
+ #  define _GL_ATTRIBUTE_DEALLOC(f, i)
+diff -up guile-3.0.9/lib/wchar.in.h.omv~ guile-3.0.9/lib/wchar.in.h
+--- guile-3.0.9/lib/wchar.in.h.omv~	2023-11-21 22:47:59.548151312 +0100
++++ guile-3.0.9/lib/wchar.in.h	2023-11-21 22:48:08.468242998 +0100
+@@ -88,7 +88,7 @@
+    that can be freed by passing them as the Ith argument to the
+    function F.  */
+ #ifndef _GL_ATTRIBUTE_DEALLOC
+-# if __GNUC__ >= 11
++# if __GNUC__ >= 11 && !defined(__clang__)
+ #  define _GL_ATTRIBUTE_DEALLOC(f, i) __attribute__ ((__malloc__ (f, i)))
+ # else
+ #  define _GL_ATTRIBUTE_DEALLOC(f, i)
+diff -up guile-3.0.9/m4/gnulib-common.m4.omv~ guile-3.0.9/m4/gnulib-common.m4
+--- guile-3.0.9/m4/gnulib-common.m4.omv~	2023-11-21 22:49:39.204175406 +0100
++++ guile-3.0.9/m4/gnulib-common.m4	2023-11-21 22:49:45.972244942 +0100
+@@ -178,7 +178,7 @@ AC_DEFUN([gl_COMMON_BODY], [
+    _GL_ATTRIBUTE_DEALLOC_FREE declares that the function returns pointers that
+    can be freed via 'free'; it can be used only after declaring 'free'.  */
+ /* Applies to: functions.  Cannot be used on inline functions.  */
 -#if _GL_GNUC_PREREQ (11, 0)
 +#if _GL_GNUC_PREREQ (11, 0) && !defined(__clang__)
  # define _GL_ATTRIBUTE_DEALLOC(f, i) __attribute__ ((__malloc__ (f, i)))

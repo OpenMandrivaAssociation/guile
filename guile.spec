@@ -1,3 +1,5 @@
+%global build_ldflags %{build_ldflags} -Wl,--undefined-version
+
 %define major 1
 %define api %(echo %{version} | cut -d. -f1-2)
 %define libname %mklibname %{name} %{api} %{major}
@@ -5,19 +7,17 @@
 
 Summary:	GNU implementation of Scheme for application extensibility
 Name:		guile
-Version:	3.0.8
-Release:	2
+Version:	3.0.9
+Release:	1
 License:	LGPLv2+
 Group:		Development/Other
-Url:		http://www.gnu.org/software/guile/guile.html
-Source0:	ftp://ftp.gnu.org/pub/gnu/guile/%{name}-%{version}.tar.xz
+Url:		https://www.gnu.org/software/guile/guile.html
+Source0:	https://ftp.gnu.org/pub/gnu/guile/%{name}-%{version}.tar.xz
 Patch1:		guile-2.0.7-turn-off-gc-test.patch
 Patch2:		guile-2.0.3-mktemp.patch
-Patch3:		guile-3.0-gc_pkgconfig_private.patch
+Patch3:		gnulib-clang.patch
 Patch4:		disable-test-out-of-memory.patch
 Patch5:		gcc10-x86-disable-one-test.patch
-Patch6:		0007-Fix-non-revealed-port-is-closed-ports.test.patch
-Patch7:		gnulib-clang.patch
 
 BuildRequires:	hostname
 BuildRequires:	chrpath
