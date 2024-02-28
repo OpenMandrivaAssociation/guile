@@ -8,7 +8,7 @@
 Summary:	GNU implementation of Scheme for application extensibility
 Name:		guile
 Version:	3.0.9
-Release:	1
+Release:	2
 License:	LGPLv2+
 Group:		Development/Other
 Url:		https://www.gnu.org/software/guile/guile.html
