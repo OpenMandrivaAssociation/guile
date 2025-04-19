@@ -1,7 +1,7 @@
-diff -up guile-3.0.9/test-suite/standalone/Makefile.am.4~ guile-3.0.9/test-suite/standalone/Makefile.am
---- guile-3.0.9/test-suite/standalone/Makefile.am.4~	2023-11-21 22:30:27.174272650 +0100
-+++ guile-3.0.9/test-suite/standalone/Makefile.am	2023-11-21 22:32:31.754571893 +0100
-@@ -298,9 +298,6 @@ TESTS += test-smob-mark-race
+diff -up guile-3.0.10/test-suite/standalone/Makefile.am.4~ guile-3.0.10/test-suite/standalone/Makefile.am
+--- guile-3.0.10/test-suite/standalone/Makefile.am.4~	2024-06-22 21:29:16.000000000 +0200
++++ guile-3.0.10/test-suite/standalone/Makefile.am	2025-04-19 14:57:20.945289093 +0200
+@@ -307,9 +307,6 @@ TESTS += test-smob-mark-race
  check_SCRIPTS += test-stack-overflow
  TESTS += test-stack-overflow
  
@@ -11,10 +11,10 @@ diff -up guile-3.0.9/test-suite/standalone/Makefile.am.4~ guile-3.0.9/test-suite
  check_SCRIPTS += test-close-on-exec
  TESTS += test-close-on-exec
  
-diff -up guile-3.0.9/test-suite/standalone/Makefile.in.4~ guile-3.0.9/test-suite/standalone/Makefile.in
---- guile-3.0.9/test-suite/standalone/Makefile.in.4~	2023-11-21 22:30:27.174272650 +0100
-+++ guile-3.0.9/test-suite/standalone/Makefile.in	2023-11-21 22:32:44.568705242 +0100
-@@ -106,7 +106,7 @@ TESTS = test-system-cmds test-bad-identi
+diff -up guile-3.0.10/test-suite/standalone/Makefile.in.4~ guile-3.0.10/test-suite/standalone/Makefile.in
+--- guile-3.0.10/test-suite/standalone/Makefile.in.4~	2024-06-23 23:38:47.000000000 +0200
++++ guile-3.0.10/test-suite/standalone/Makefile.in	2025-04-19 14:58:07.416283428 +0200
+@@ -107,7 +107,7 @@ TESTS = test-system-cmds test-bad-identi
  	test-scm-c-bind-keyword-arguments$(EXEEXT) \
  	test-srfi-4$(EXEEXT) $(am__append_6) $(am__EXEEXT_1) \
  	test-smob-mark$(EXEEXT) test-smob-mark-race$(EXEEXT) \
@@ -23,12 +23,12 @@ diff -up guile-3.0.9/test-suite/standalone/Makefile.in.4~ guile-3.0.9/test-suite
  check_PROGRAMS = test-num2integral$(EXEEXT) test-round$(EXEEXT) \
  	test-foreign-object-c$(EXEEXT) test-list$(EXEEXT) \
  	test-unwind$(EXEEXT) test-conversion$(EXEEXT) \
-@@ -2245,7 +2245,7 @@ check_SCRIPTS = test-system-cmds test-ba
- 	test-language test-guild-compile test-signal-fork \
- 	$(am__append_3) test-foreign-object-scm test-fast-slot-ref \
- 	test-mb-regexp test-use-srfi $(am__append_5) \
--	test-stack-overflow test-out-of-memory test-close-on-exec
-+	test-stack-overflow test-close-on-exec
+@@ -2440,7 +2440,7 @@ check_SCRIPTS = test-system-cmds test-ba
+ 	test-language test-guild-compile test-sigaction-fork \
+ 	test-signal-fork $(am__append_3) test-foreign-object-scm \
+ 	test-fast-slot-ref test-mb-regexp test-use-srfi \
+-	$(am__append_5) test-stack-overflow test-out-of-memory \
++	$(am__append_5) test-stack-overflow \
+ 	test-close-on-exec
  BUILT_SOURCES = $(am__append_2)
  EXTRA_DIST = test-import-order-a.scm test-import-order-b.scm \
- 	test-import-order-c.scm test-import-order-d.scm \
