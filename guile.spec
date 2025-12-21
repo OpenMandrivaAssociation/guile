@@ -19,6 +19,11 @@ Patch3:		gnulib-clang.patch
 Patch4:		disable-test-out-of-memory.patch
 Patch5:		gcc10-x86-disable-one-test.patch
 
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	hostname
 BuildRequires:	chrpath
 BuildRequires:	pkgconfig(libunistring)
